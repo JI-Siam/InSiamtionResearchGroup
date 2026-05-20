@@ -1,0 +1,175 @@
+{
+	"organization": {
+		"fullName": "InSiamtion Research Group",
+		"shortForm": "IRG",
+		"type": "Student-Led Research & Mentorship Organization",
+		"motto": "Growing Researchers. Creating Impact.",
+		"alternativeMottos": [
+			"Together Towards Research Excellence.",
+			"Research, Mentorship, Innovation.",
+			"Where Potential Becomes Publication.",
+			"Building Minds. Advancing Research."
+		]
+	},
+	"about": {
+		"summary": "InSiamtion Research Group (IRG) is a student-led research organization founded by students of American International University-Bangladesh that builds a collaborative ecosystem for passionate and capable researchers.",
+		"goals": [
+			"Unite bright, dedicated, and growth-oriented students",
+			"Mentor aspiring researchers and develop academic leaders",
+			"Create a culture of innovation, collaboration, and excellence within the AIUB community",
+			"Publish high-quality journal and conference papers"
+		]
+	},
+	"purpose": {
+		"context": "Many students have strong technical skills, innovative ideas, research interest, and academic potential but often lack a reliable research team, proper mentorship, collaborative opportunities, research workflow experience, and guidance for publication.",
+		"missionSummary": "IRG exists to bridge that gap by building teams, mentoring students, and providing structured research opportunities.",
+		"aims": [
+			"Build strong research teams",
+			"Mentor future researchers",
+			"Encourage interdisciplinary collaboration",
+			"Help students gain publication experience",
+			"Develop real-world research and communication skills",
+			"Create opportunities for academic and professional growth"
+		]
+	},
+	"vision": "To create one of the most impactful student-led research communities within AIUB that empowers talented students through mentorship, teamwork, and high-quality research contributions.",
+	"mission": [
+		"Unite dedicated and talented AIUB students under a collaborative research platform",
+		"Mentor students who are interested in research and publication",
+		"Foster teamwork, innovation, and academic excellence",
+		"Produce impactful journal and conference publications",
+		"Help members grow technically, academically, and professionally",
+		"Establish a long-term research culture among students"
+	],
+	"organizationalPhilosophy": [
+		"Research is stronger through collaboration",
+		"Great researchers are developed through mentorship and consistency",
+		"Every member should both learn and contribute",
+		"Discipline and teamwork are essential for impactful research",
+		"Growth matters as much as publication"
+	],
+	"membershipExpectations": [
+		"Dedicate 6–10 hours weekly to research activities",
+		"Participate actively in discussions and meetings",
+		"Maintain professionalism and accountability",
+		"Support fellow members collaboratively",
+		"Continuously improve research and technical skills"
+	],
+	"teamStructure": {
+		"teams": [
+			{
+				"name": "Writing and Formatting Team",
+				"focus": [
+					"Academic writing",
+					"Literature review",
+					"Paper formatting",
+					"Citation management",
+					"Proofreading and editing"
+				],
+				"composition": { "teamLeaders": 1, "members": "4-5" }
+			},
+			{
+				"name": "Idea Development and Proposal Team",
+				"focus": [
+					"Brainstorming innovative ideas",
+					"Research gap identification",
+					"Proposal development",
+					"Study planning and methodology design"
+				],
+				"composition": { "teamLeaders": 1, "members": "4-5" }
+			},
+			{
+				"name": "Execution/Experimental Team",
+				"focus": [
+					"Experimentation",
+					"Model implementation",
+					"Data analysis",
+					"Validation and technical execution"
+				],
+				"composition": { "teamLeaders": 1, "members": "4-5" }
+			}
+		]
+	},
+	"mentorshipCulture": {
+		"summary": "IRG is mentorship-driven: senior members and team leaders guide junior researchers, share resources, conduct learning sessions, and support newcomers.",
+		"expectationsForSeniors": [
+			"Guide junior researchers",
+			"Share resources and knowledge",
+			"Conduct learning sessions",
+			"Support newcomers in understanding the research process",
+			"Encourage collaborative learning"
+		]
+	},
+	"coreValues": ["Collaboration","Integrity","Innovation","Discipline","Growth","Accountability","Mentorship","Excellence"],
+	"featuredResearch": {
+		"summary": "IRG members are actively publishing conference papers across IEEE, Springer Nature, Atlantis Press, and leading Bangladeshi conferences like ICCIT, ICECTE, QPAIN, IDAA, and more, while building toward future journal publications.",
+		"highlights": [
+			"Multiple conference papers published",
+			"IEEE, Springer Nature, and Atlantis Press venues",
+			"Top Bangladeshi conferences including ICCIT, ICECTE, QPAIN, and IDAA"
+		],
+		"venues": ["IEEE", "Springer Nature", "Atlantis Press", "ICCIT", "ICECTE", "QPAIN", "IDAA"]
+	},
+	"recruitment": {
+		"summary": "We are actively recruiting passionate students across all research teams. If you want to build real projects, publish conference research, and grow with a focused team, apply now.",
+		"teams": [
+			"Writing and Formatting Team",
+			"Idea Development and Proposal Team",
+			"Execution/Experimental Team"
+		],
+		"qualities": ["Curiosity", "Consistency", "Teamwork", "Willingness to learn"],
+		"ctaLabel": "Apply Now",
+		"ctaHref": "#membership",
+		"note": "We are looking for committed members who want to contribute to research and publication work."
+	},
+	"whyJoinUs": {
+		"headline": "Join a team built for capable students who want to make a real impact.",
+		"summary": "We are a dedicated, growing research team focused on high-quality work, strong collaboration, and meaningful contribution. If you are skilled, motivated, and looking for a team that values dedication and action, this is where you belong.",
+		"points": [
+			"Work with like-minded people who take research seriously",
+			"Contribute to a team that values dedication, discipline, and consistency",
+			"Get real support, feedback, and space to grow your strengths",
+			"Be part of a team where capable students can actually shine through contribution"
+		],
+		"closing": "Many talented students never get to shine because they lack the right team support. We are building that team: one that contributes deeply, works with purpose, and grows together."
+	},
+	"confidentialityPolicy": [
+		"Research ideas",
+		"Draft papers",
+		"Experimental results",
+		"Internal discussions",
+		"Organizational strategies",
+		"No unpublished work may be shared externally without authorization"
+	],
+	"authorshipPolicy": {
+		"principles": [
+			"Authorship based on contribution quality",
+			"Research involvement",
+			"Technical implementation",
+			"Writing support",
+			"Intellectual contribution"
+		],
+		"note": "Fairness, transparency, and ethical publication standards will always be maintained"
+	},
+	"terminationCriteria": [
+		"Academic misconduct or plagiarism",
+		"Confidentiality breach",
+		"Continuous inactivity",
+		"Lack of contribution",
+		"Toxic or unprofessional behavior",
+		"Repeated failure to fulfill responsibilities"
+	],
+	"longTermGoals": [
+		"Publish in reputed journals and conferences",
+		"Create a strong research culture within AIUB",
+		"Build interdisciplinary research collaborations",
+		"Mentor future researchers and innovators",
+		"Represent AIUB through impactful research contributions",
+		"Establish IRG as a respected student research community"
+	],
+	"officialIdentity": {
+		"fullName": "InSiamtion Research Group",
+		"shortForm": "IRG",
+		"type": "Student-Led Research & Mentorship Organization"
+	}
+}
