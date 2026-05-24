@@ -5,8 +5,9 @@ import Footer from '@/components/shared/Footer';
 import Banner from '@/components/home/Banner';
 import About from '@/components/home/About';
 import Featured from '@/components/home/Featured';
+import Announcement from '@/components/home/Announcement';
 import Teams from '@/components/home/Teams';
-import Recruitment from '@/components/home/Recruitment';
+// import Recruitment from '@/components/home/Recruitment';
 import WhyJoinUs from '@/components/home/WhyJoinUs';
 import Mission from '@/components/home/Mission';
 import Philosophy from '@/components/home/Philosophy';
@@ -34,12 +35,14 @@ export default function HomeMain({data}){
       <main>
         <Banner title={org.fullName} subtitle={about.summary} />
         <About about={about} />
+        <Announcement announcement={data?.announcement} />
         <Featured featuredResearch={featuredResearch} />
         <Mission mission={mission} />
         <Philosophy philosophy={philosophy} />
         <Values values={values} />
         <Teams teams={teams} />
-        <Recruitment recruitment={recruitment} />
+        {/* Recruitment is paused — selection completed. Component intentionally commented out. */}
+        {/* <Recruitment recruitment={recruitment} /> */}
         <WhyJoinUs whyJoinUs={whyJoinUs} />
         <Membership expectations={membership} />
         <Mentorship mentorship={mentorship} />

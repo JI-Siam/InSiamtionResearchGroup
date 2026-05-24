@@ -20,6 +20,10 @@
 			"Publish high-quality journal and conference papers"
 		]
 	},
+	"announcement": {
+		"summary": "Selection complete: we selected 10 members across 3 teams from 40+ candidates. Registration is now closed.",
+		"details": "Our teams have started working and training sessions are ongoing on Discord: https://discord.gg/5UQXTqJy7"
+	},
 	"purpose": {
 		"context": "Many students have strong technical skills, innovative ideas, research interest, and academic potential but often lack a reliable research team, proper mentorship, collaborative opportunities, research workflow experience, and guidance for publication.",
 		"missionSummary": "IRG exists to bridge that gap by building teams, mentoring students, and providing structured research opportunities.",
