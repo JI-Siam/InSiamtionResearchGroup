@@ -1,4 +1,4 @@
-'use client'
+import Image from 'next/image';
 
 export default function Banner({title, subtitle}){
   return (
@@ -19,7 +19,7 @@ export default function Banner({title, subtitle}){
             </div>
             <div className="hidden lg:flex flex-1 items-center justify-center flex-shrink-0">
               <div className="relative w-56 h-56 bg-gradient-to-br from-primary/10 to-indigo/10 rounded-2xl flex items-center justify-center">
-                <img src="/logo.png" alt="IRG logo" className="w-48 h-48 object-contain filter drop-shadow-lg" />
+                <Image src="/logo.png" alt="IRG logo" width={192} height={192} className="w-48 h-48 object-contain filter drop-shadow-lg" />
               </div>
             </div>
           </div>
