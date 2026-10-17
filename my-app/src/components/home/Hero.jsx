@@ -40,13 +40,29 @@ export default function Hero({ org, about, announcement }) {
     <section
       ref={heroRef}
       className="relative min-h-[92vh] flex flex-col justify-between pt-28 pb-12 sm:pt-36 sm:pb-16 overflow-hidden border-b border-white/5 bg-[#050B14]"
+      style={{
+        contain: 'paint',
+        transform: 'translateZ(0)',
+      }}
     >
       {/* 3D Scientific Background */}
       <ScientificConstellation />
 
-      {/* Ambient Lighting Gradients */}
-      <div className="absolute top-1/4 -left-48 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/3 -right-48 w-96 h-96 bg-indigo-600/15 rounded-full blur-[140px] pointer-events-none" />
+      {/* Ambient Lighting Gradients (Using zero-cost radial-gradients to prevent GPU blur stutter on scroll) */}
+      <div
+        className="absolute top-1/4 -left-48 w-[32rem] h-[32rem] rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(0, 229, 255, 0.12) 0%, transparent 70%)',
+          transform: 'translateZ(0)',
+        }}
+      />
+      <div
+        className="absolute top-1/3 -right-48 w-[36rem] h-[36rem] rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.14) 0%, transparent 70%)',
+          transform: 'translateZ(0)',
+        }}
+      />
       <div className="absolute inset-0 scientific-grid pointer-events-none opacity-40" />
 
       <div className="container relative z-10 my-auto">
@@ -63,7 +79,7 @@ export default function Hero({ org, about, announcement }) {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
               </span>
               <span className="text-xs font-semibold text-cyan-200 tracking-wide">
-                Active Cohort: 10 Researchers in Session • AIUB
+                Active Cohort: 10 Researchers in Session
               </span>
             </div>
 
@@ -200,10 +216,10 @@ export default function Hero({ org, about, announcement }) {
               subtext="Idea, Execution & Writing"
             />
             <CounterStat
-              end={7}
+              end={8}
               suffix="+"
               label="Target Venues"
-              subtext="IEEE, Springer, ICCIT, ICECTE"
+              subtext="IEEE, Springer, ACM, ICCIT"
             />
             <div className="col-span-2 sm:col-span-1">
               <CounterStat

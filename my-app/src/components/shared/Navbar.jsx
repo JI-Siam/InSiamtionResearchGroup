@@ -48,9 +48,8 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 lg:px-8 ${
-          scrolled ? 'py-3 bg-[#050B14]/80 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-cyan-950/20' : 'py-5 bg-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 lg:px-8 ${scrolled ? 'py-3 bg-[#050B14]/80 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-cyan-950/20' : 'py-5 bg-transparent'
+          }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo & Lab Branding */}
@@ -70,9 +69,6 @@ export default function Navbar() {
                 <span className="font-display font-bold text-lg text-white tracking-tight group-hover:text-cyan-400 transition-colors">
                   IRG
                 </span>
-                <span className="hidden sm:inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
-                  AIUB
-                </span>
               </div>
               <span className="hidden md:inline-block text-[11px] text-slate-400 tracking-wider">
                 InSiamtion Research Group
@@ -88,11 +84,10 @@ export default function Navbar() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className={`px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-medium transition-all duration-200 relative ${
-                    isActive
+                  className={`px-3.5 py-1.5 rounded-full text-xs xl:text-sm font-medium transition-all duration-200 relative ${isActive
                       ? 'text-cyan-300 bg-cyan-500/15 font-semibold shadow-sm'
                       : 'text-slate-300 hover:text-white hover:bg-white/5'
-                  }`}
+                    }`}
                 >
                   {link.label}
                   {isActive && (

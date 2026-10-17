@@ -102,13 +102,13 @@
 	},
 	"coreValues": ["Collaboration","Integrity","Innovation","Discipline","Growth","Accountability","Mentorship","Excellence"],
 	"featuredResearch": {
-		"summary": "IRG members are actively publishing conference papers across IEEE, Springer Nature, Atlantis Press, and leading Bangladeshi conferences like ICCIT, ICECTE, QPAIN, IDAA, and more, while building toward future journal publications.",
+		"summary": "IRG members are actively publishing conference papers across IEEE, Springer Nature, ACM Digital Library (ICCA), Atlantis Press, and leading conferences like ICCIT, ICECTE, QPAIN, IDAA, and more, while building toward future journal publications.",
 		"highlights": [
 			"Multiple conference papers published",
-			"IEEE, Springer Nature, and Atlantis Press venues",
-			"Top Bangladeshi conferences including ICCIT, ICECTE, QPAIN, and IDAA"
+			"IEEE, Springer Nature, ACM Digital Library, and Atlantis Press venues",
+			"Top peer-reviewed conferences including ICCA, ICCIT, ICECTE, QPAIN, and IDAA"
 		],
-		"venues": ["IEEE", "Springer Nature", "Atlantis Press", "ICCIT", "ICECTE", "QPAIN", "IDAA"]
+		"venues": ["IEEE", "Springer Nature", "ICCA (ACM)", "Atlantis Press", "ICCIT", "ICECTE", "QPAIN", "IDAA"]
 	},
 	"recruitment": {
 		"summary": "We are actively recruiting passionate students across all research teams. If you want to build real projects, publish conference research, and grow with a focused team, apply now.",

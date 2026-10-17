@@ -34,6 +34,8 @@ export const metadata = {
     'Student Research Group',
     'Machine Learning Research Bangladesh',
     'IEEE ICCIT',
+    'ACM ICCA',
+    'ACM Digital Library',
     'Springer Nature',
     'Academic Mentorship',
     'AIUB Computer Science',
@@ -65,10 +67,16 @@ export const metadata = {
     images: ['/images/neural_mesh_hero.jpg']
   },
   icons: {
-    icon: '/logo.png',
-    shortcut: '/logo.png',
-    apple: '/logo.png'
-  }
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon.png', type: 'image/png' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/apple-icon.png' },
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {

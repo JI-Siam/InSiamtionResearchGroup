@@ -21,6 +21,14 @@ const VENUE_DETAILS = [
     description: 'Global scientific publisher delivering rigorous peer-reviewed book series, conference proceedings, and journals.'
   },
   {
+    name: 'ICCA (ACM)',
+    category: 'International Conference on Computing Advancements',
+    badge: 'ACM DIGITAL LIBRARY',
+    index: 'ACM Digital Library / Scopus Indexed',
+    focus: 'Applied AI, Intelligent Systems, Smart Computing & Data Engineering',
+    description: 'Premier international computing conference with proceedings published in the ACM Digital Library and indexed in Scopus.'
+  },
+  {
     name: 'ICCIT',
     category: 'International Conference on Computer & Info Tech',
     badge: 'FLAGSHIP BANGLADESH',
@@ -86,7 +94,7 @@ export default function PublicationsShowcase({ featuredResearch, authorshipPolic
           </h2>
           <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
             {summary ||
-              'IRG members actively target reputable conference publications across IEEE, Springer Nature, Atlantis Press, and premier Bangladeshi conferences including ICCIT, ICECTE, QPAIN, and IDAA, steadily building toward upcoming journal milestones.'}
+              'IRG members actively target reputable conference publications across IEEE, Springer Nature, ACM Digital Library (ICCA), Atlantis Press, and premier conferences including ICCIT, ICECTE, QPAIN, and IDAA, steadily building toward upcoming journal milestones.'}
           </p>
         </div>
 
