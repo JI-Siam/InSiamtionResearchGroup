@@ -48,19 +48,18 @@ export default function Navbar() {
 
       <header className="fixed top-0 inset-x-0 z-40 transition-all duration-300" id="navbar">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-          <motion.nav 
+          <motion.nav
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className={`flex items-center justify-between px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full transition-all duration-300 ${
-              isScrolled 
-                ? 'bg-obsidian/85 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/50' 
-                : 'glass-badge'
-            }`}
+            className={`flex items-center justify-between px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full transition-all duration-300 ${isScrolled
+              ? 'bg-obsidian/85 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/50'
+              : 'glass-badge'
+              }`}
           >
             {/* Real Brand Logo Image + Wordmark */}
             <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
-              <motion.div 
+              <motion.div
                 whileHover={{ scale: 1.08, rotate: [0, -3, 3, 0] }}
                 transition={{ duration: 0.3 }}
                 className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden bg-white/[0.04] p-1 border border-white/10 shadow-md flex items-center justify-center shrink-0"
@@ -85,7 +84,7 @@ export default function Navbar() {
             </Link>
 
             {/* Center Pill-Enclosed Navigation Links with Smooth Moving Indicator */}
-            <div 
+            <div
               onMouseLeave={() => setHoveredIdx(null)}
               className="hidden lg:flex items-center gap-1 bg-white/[0.04] border border-white/[0.07] rounded-full p-1 relative"
             >

@@ -116,7 +116,7 @@ export default function Hero({ org, about, announcement }) {
                 transition={{ duration: 0.85, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="inline-block"
               >
-                RESEARCH,
+                GROWING,
               </motion.span>
             </div>
             <div className="overflow-hidden pb-1">
@@ -126,7 +126,7 @@ export default function Hero({ org, about, announcement }) {
                 transition={{ duration: 0.85, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
                 className="inline-block text-shimmer-cobalt"
               >
-                REDEFINED.
+                RESEARCHERS.
               </motion.span>
             </div>
           </h1>
