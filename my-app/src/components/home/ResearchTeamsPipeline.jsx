@@ -1,221 +1,218 @@
 'use client'
 
-import { useRef, useEffect } from 'react';
-import Image from 'next/image';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FiUsers, FiEdit3, FiCpu, FiCompass, FiCheckCircle, FiLayers, FiArrowRight } from 'react-icons/fi';
+import Link from 'next/link';
+import { FiShield, FiArrowRight } from 'react-icons/fi';
 
-const TEAM_METADATA = [
+export const VENUES_DATA = [
   {
-    id: 'idea',
-    teamIndex: 0,
-    tag: 'PHASE 01 // DISCOVERY & HYPOTHESIS',
-    badgeColor: 'border-amber-500/30 text-amber-400 bg-amber-500/10',
-    icon: FiCompass,
-    image: '/images/neural_mesh_hero.jpg',
-    description:
-      'The intellectual engine that scans current scientific literature to uncover impactful research gaps, formulates novel research questions, and engineers structured proposals.',
-    deliverables: [
-      'Research Gap Identification & Problem Formulation',
-      'Literature Survey & Theoretical Frameworks',
-      'Methodology & Algorithmic Blueprinting',
-      'Formal Proposal & Study Feasibility'
-    ]
+    id: 'ieee',
+    code: 'PUB-01 // GLOBAL PUBLISHER',
+    name: 'IEEE & IEEE Xplore',
+    badge: 'CORE PUBLISHER',
+    category: 'publishers',
+    index: 'Scopus, IEEE Xplore, EI Compendex',
+    focus: 'Artificial Intelligence, Signal Processing, Computer Systems & Robotics',
+    description: 'The world’s largest technical professional organization for technology. IRG fellows target IEEE conferences and journals with empirical benchmarking.',
+    status: 'ACTIVE TARGET'
   },
   {
-    id: 'execution',
-    teamIndex: 1,
-    tag: 'PHASE 02 // TECHNICAL VALIDATION',
-    badgeColor: 'border-cyan-500/30 text-cyan-400 bg-cyan-500/10',
-    icon: FiCpu,
-    image: '/images/experiment_lab.jpg',
-    description:
-      'The computational powerhouse that implements algorithms, conducts extensive experiments, trains machine learning models, and extracts rigorous empirical performance metrics.',
-    deliverables: [
-      'Model Implementation & Algorithmic Pipelines',
-      'High-Performance Experimentation & GPU Workloads',
-      'Statistical Data Analytics & Performance Metrics',
-      'Empirical Validation & Benchmark Comparison'
-    ]
+    id: 'springer',
+    code: 'PUB-02 // SCIENTIFIC PUBLISHER',
+    name: 'Springer Nature',
+    badge: 'PEER-REVIEWED SERIES',
+    category: 'publishers',
+    index: 'Scopus, SpringerLink, LNNS, CCIS',
+    focus: 'Intelligent Systems, Machine Learning, Data Analytics & Networks',
+    description: 'Global scientific publisher delivering peer-reviewed book series, conference proceedings, and journals including LNNS and CCIS.',
+    status: 'ACTIVE TARGET'
   },
   {
-    id: 'writing',
-    teamIndex: 2,
-    tag: 'PHASE 03 // DISSEMINATION & SYNTHESIS',
-    badgeColor: 'border-violet-500/30 text-violet-400 bg-violet-500/10',
-    icon: FiEdit3,
-    image: '/images/literature_review.jpg',
-    description:
-      'The editorial laboratory that translates technical breakthroughs into camera-ready manuscripts formatted strictly to IEEE, Springer Nature, and conference standards.',
-    deliverables: [
-      'Academic Writing & Literature Synthesis',
-      'IEEE / Springer LaTeX & Word Formatting',
-      'BibTeX & Citation Integrity Verification',
-      'Reviewer Response & Camera-Ready Finalization'
-    ]
+    id: 'acm',
+    code: 'PUB-03 // ACM DIGITAL LIBRARY',
+    name: 'ICCA (ACM Digital Library)',
+    badge: 'ACM PROCEEDINGS',
+    category: 'publishers',
+    index: 'ACM Digital Library, Scopus Indexed',
+    focus: 'Applied AI, Intelligent Systems, Smart Computing & Data Engineering',
+    description: 'Premier international computing conference with proceedings published in the ACM Digital Library and indexed in Scopus.',
+    status: 'ACTIVE SUBMISSION'
+  },
+  {
+    id: 'iccit',
+    code: 'CONF-01 // BANGLADESH FLAGSHIP',
+    name: 'ICCIT',
+    badge: 'IEEE XPLORE INDEXED',
+    category: 'conferences',
+    index: 'IEEE Xplore, Scopus Indexed',
+    focus: 'Computer Science, Artificial Intelligence, Cybersecurity & IoT',
+    description: 'The premier and longest-running international computing conference organized in Bangladesh, upholding global review rigor.',
+    status: 'ACTIVE SUBMISSION'
+  },
+  {
+    id: 'icecte',
+    code: 'CONF-02 // RUET CO-SPONSORED',
+    name: 'ICECTE (RUET)',
+    badge: 'IEEE TECHNICAL CO-SPONSOR',
+    category: 'conferences',
+    index: 'IEEE Xplore, Scopus Indexed',
+    focus: 'Applied Machine Learning, Computer Engineering & Telecommunications',
+    description: 'Reputable international research conference hosted by Rajshahi University of Engineering & Technology (RUET).',
+    status: 'ACTIVE TARGET'
+  },
+  {
+    id: 'qpain',
+    code: 'SYMP-01 // AI & PATTERN ANALYSIS',
+    name: 'QPAIN',
+    badge: 'SPECIALIZED FORUM',
+    category: 'symposia',
+    index: 'International Proceedings Series',
+    focus: 'Pattern Recognition, Neural Networks, Deep Learning & Intelligent Systems',
+    description: 'Specialized scientific forum addressing frontier advances in pattern analysis and intelligent computing.',
+    status: 'RESEARCH PHASE'
+  },
+  {
+    id: 'idaa',
+    code: 'SYMP-02 // DATA SCIENCE',
+    name: 'IDAA',
+    badge: 'SCOPUS / SPRINGER',
+    category: 'symposia',
+    index: 'Scopus, Springer Series',
+    focus: 'Data Mining, Predictive Analytics & Computational Intelligence',
+    description: 'International symposium addressing applied machine learning, big data architectures, and informatics.',
+    status: 'RESEARCH PHASE'
+  },
+  {
+    id: 'atlantis',
+    code: 'PUB-04 // SPRINGER NATURE',
+    name: 'Atlantis Press',
+    badge: 'OPEN ACCESS SERIES',
+    category: 'publishers',
+    index: 'Advances in Computer Science Research',
+    focus: 'Computational Algorithms, Information Systems, Software Architecture',
+    description: 'Part of Springer Nature, publishing high-quality open-access proceedings and academic monographs in computer science.',
+    status: 'ACTIVE TARGET'
   }
 ];
 
 export default function ResearchTeamsPipeline({ teams = [] }) {
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
+  const openVenueModal = (idx) => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('open-abstract-modal', { detail: idx }));
     }
+  };
 
-    gsap.registerPlugin(ScrollTrigger);
+  const openApply = () => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('open-apply-modal'));
+    }
+  };
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.pipeline-card',
-        { opacity: 0, y: 35 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          stagger: 0.15,
-          ease: 'power2.out',
-          clearProps: 'all',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 85%',
-            once: true,
-          },
-        }
-      );
-    }, sectionRef);
-
-    ScrollTrigger.refresh();
-
-    return () => ctx.revert();
-  }, []);
+  // Top 4 flagship venues for the landing page showcase
+  const flagshipVenues = VENUES_DATA.slice(0, 4);
 
   return (
-    <section
-      id="teams"
-      ref={sectionRef}
-      className="scroll-mt-24 sm:scroll-mt-28 py-20 sm:py-28 relative bg-[#050B14] overflow-hidden"
-    >
-      {/* Background Subtle Gradient */}
-      <div className="absolute top-1/3 -left-40 w-96 h-96 bg-cyan-500/5 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-10 right-0 w-96 h-96 bg-indigo-500/5 rounded-full blur-[150px] pointer-events-none" />
+    <section id="venues" className="bg-obsidian bg-grid-dark text-white py-24 sm:py-32 border-t border-white/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div className="container relative z-10">
-        {/* Header */}
-        <div className="max-w-3xl mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono font-semibold tracking-wider uppercase mb-4">
-            <FiUsers />
-            <span>02 // Research Architecture</span>
+        {/* Header + Link to full directory */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
+          <div>
+            <div className="font-mono text-xs uppercase tracking-widest text-cobalt font-semibold mb-3">
+              [ 04 / PUBLICATION TARGETS ]
+            </div>
+            <h2 className="font-display-tight font-bold text-4xl sm:text-5xl lg:text-6xl text-white">
+              Target Venues &amp; Proceedings
+            </h2>
+            <p className="text-zinc-400 text-sm sm:text-base mt-2 max-w-xl leading-relaxed">
+              Fellows target peer-reviewed IEEE, Springer Nature, and ACM conferences with reproducible codebases.
+            </p>
           </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">
-            Three Specialized Labs.{' '}
-            <span className="text-gradient-cyan">One Scientific Pipeline.</span>
-          </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-            Rather than working in isolation, IRG researchers collaborate within three synchronized teams that take a concept from theoretical hypothesis through empirical execution to peer-reviewed publication.
-          </p>
+
+          <Link
+            href="/venues"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono uppercase tracking-wider text-cobalt hover:text-white transition-colors cursor-pointer group"
+          >
+            <span>View All 8 Venues &amp; Indexing</span>
+            <FiArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
 
-        {/* Workflow Pipeline Breadcrumb */}
-        <div className="mb-12 p-4 rounded-xl glass-panel border border-white/10 hidden md:flex items-center justify-between text-xs font-mono text-slate-400">
-          <div className="flex items-center gap-2 text-amber-300 font-semibold">
-            <span className="w-6 h-6 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-[10px]">01</span>
-            <span>Idea & Proposal Development</span>
-          </div>
-          <span className="text-slate-600">┈┈┈┈►</span>
-          <div className="flex items-center gap-2 text-cyan-300 font-semibold">
-            <span className="w-6 h-6 rounded-full bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-[10px]">02</span>
-            <span>Execution & Experimentation</span>
-          </div>
-          <span className="text-slate-600">┈┈┈┈►</span>
-          <div className="flex items-center gap-2 text-violet-300 font-semibold">
-            <span className="w-6 h-6 rounded-full bg-violet-500/20 border border-violet-500/40 flex items-center justify-center text-[10px]">03</span>
-            <span>Writing, Formatting & Peer Review</span>
-          </div>
-        </div>
-
-        {/* 3 Specialized Lab Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {TEAM_METADATA.map((meta, idx) => {
-            // Find corresponding team from data
-            const matchingTeam = teams.find(
-              (t) =>
-                (meta.id === 'idea' && t.name.toLowerCase().includes('idea')) ||
-                (meta.id === 'execution' && t.name.toLowerCase().includes('execution')) ||
-                (meta.id === 'writing' && t.name.toLowerCase().includes('writing'))
-            ) || teams[idx] || {};
-
-            const Icon = meta.icon;
-
-            return (
-              <div
-                key={meta.id}
-                className="pipeline-card rounded-2xl glass-panel glass-panel-hover border border-white/10 flex flex-col justify-between overflow-hidden group"
-              >
-                {/* Visual Header with Image */}
-                <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-950">
-                  <Image
-                    src={meta.image}
-                    alt={matchingTeam?.name || 'Research Team'}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-80"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A1324] via-[#0A1324]/40 to-transparent" />
-
-                  <div className="absolute top-3 left-3">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase border backdrop-blur-md ${meta.badgeColor}`}>
-                      {meta.tag}
-                    </span>
-                  </div>
-
-                  <div className="absolute bottom-3 right-3 w-10 h-10 rounded-xl bg-slate-900/90 backdrop-blur-md border border-white/15 flex items-center justify-center text-white">
-                    <Icon className="text-lg text-cyan-400" />
-                  </div>
+        {/* 4 Flagship Venues Bento Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          {flagshipVenues.map((venue, idx) => (
+            <article
+              key={venue.id}
+              className="rounded-3xl bg-obsidianSurface border border-obsidianBorder hover:border-cobalt/60 p-7 sm:p-8 transition-all flex flex-col justify-between group"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-6">
+                  <span className="font-mono text-[11px] uppercase tracking-wider px-3 py-1 rounded-full bg-cobalt/15 text-cobalt border border-cobalt/30 font-semibold">
+                    {venue.badge}
+                  </span>
+                  <span className="font-mono text-xs text-zinc-500">{venue.code}</span>
                 </div>
 
-                {/* Content Body */}
-                <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="font-display font-bold text-xl sm:text-2xl text-white mb-2 group-hover:text-cyan-300 transition-colors">
-                      {matchingTeam?.name || `Research Team 0${idx + 1}`}
-                    </h3>
+                <h3 className="font-display font-bold text-2xl text-white group-hover:text-cobaltGlow transition-colors mb-2 leading-snug">
+                  {venue.name}
+                </h3>
 
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
-                      {meta.description}
-                    </p>
-
-                    {/* Key Deliverables */}
-                    <div className="space-y-2.5 mb-6">
-                      <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold">
-                        Core Competencies
-                      </div>
-                      {meta.deliverables.map((item, i) => (
-                        <div key={i} className="flex items-start gap-2 text-xs text-slate-200">
-                          <FiCheckCircle className="text-cyan-400 text-sm shrink-0 mt-0.5" />
-                          <span>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Team Composition Footer */}
-                  <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-cyan-400">LEAD:</span>
-                      <span className="text-slate-200 font-semibold">1 Team Lead</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-cyan-400">MEMBERS:</span>
-                      <span className="text-slate-200 font-semibold">4–5 Researchers</span>
-                    </div>
-                  </div>
+                <div className="font-mono text-xs text-cobalt mb-3 flex items-center gap-2">
+                  <span className="font-semibold">INDEX:</span>
+                  <span className="text-zinc-300">{venue.index}</span>
                 </div>
+
+                <p className="text-sm text-zinc-400 leading-relaxed mb-6">
+                  {venue.description}
+                </p>
               </div>
-            );
-          })}
+
+              <div className="pt-5 border-t border-white/10 flex items-center justify-between">
+                <div className="font-mono text-[11px] text-zinc-400">
+                  STATUS: <span className="text-white font-semibold">{venue.status}</span>
+                </div>
+                <button
+                  onClick={() => openVenueModal(idx)}
+                  className="text-xs font-semibold text-white hover:text-cobalt flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <span>Inspect Scope</span>
+                  <span>&rarr;</span>
+                </button>
+              </div>
+            </article>
+          ))}
         </div>
+
+        {/* Streamlined Authorship & Callout Banner */}
+        <div className="rounded-3xl bg-gradient-to-r from-cobalt/20 via-obsidianSurface to-obsidianSurface border border-cobalt/30 p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-cobalt font-semibold">
+              <FiShield size={16} />
+              <span>STRICT MERIT-BASED AUTHORSHIP POLICY</span>
+            </div>
+            <h3 className="font-display font-bold text-2xl sm:text-3xl text-white">
+              Zero Gift Authorship. Real Scientific Contribution.
+            </h3>
+            <p className="text-sm text-zinc-300 max-w-2xl leading-relaxed">
+              Authorship is awarded strictly based on research contribution, technical implementation, and writing synthesis.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 w-full sm:w-auto">
+            <Link
+              href="/venues"
+              className="px-6 py-3.5 rounded-full glass-badge hover:bg-white/[0.08] text-zinc-200 text-xs sm:text-sm font-semibold transition-colors text-center"
+            >
+              Full Directory
+            </Link>
+            <button
+              onClick={openApply}
+              className="px-6 py-3.5 rounded-full bg-cobalt hover:bg-cobaltGlow text-white text-xs sm:text-sm font-semibold transition-all shadow-lg shadow-cobalt/25 whitespace-nowrap cursor-pointer active:scale-95 text-center"
+            >
+              Apply to Cohort &rarr;
+            </button>
+          </div>
+        </div>
+
       </div>
     </section>
   );

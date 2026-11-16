@@ -1,250 +1,313 @@
 'use client'
 
-import { useEffect, useRef } from 'react';
-import Image from 'next/image';
-import gsap from 'gsap';
-import ScientificConstellation from '@/components/canvas/ScientificConstellation';
-import CounterStat from '@/components/common/CounterStat';
-import { FiArrowRight, FiBookOpen, FiCpu, FiLayers, FiShield } from 'react-icons/fi';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiArrowRight } from 'react-icons/fi';
 import { FaDiscord } from 'react-icons/fa6';
+import SpotlightCard from '@/components/ui/SpotlightCard';
+
+const PIPELINE_STAGES = [
+  {
+    tag: "01 / IDEA DEVELOPMENT & LITERATURE GAPS",
+    duration: "Weeks 01–03 • Idea & Proposal Team",
+    title: "Research Gap Identification & Methodology Blueprinting",
+    desc: "Brainstorming innovative research questions, conducting systematic literature surveys across IEEE Xplore, ACM Digital Library, and Springer, and formulating formal study blueprints under direct senior mentorship.",
+    deliverables: [
+      { label: "DELIVERABLE A", text: "Annotated Literature Matrix" },
+      { label: "DELIVERABLE B", text: "Formal Problem Statement" },
+      { label: "DELIVERABLE C", text: "Experimental Design Plan" }
+    ]
+  },
+  {
+    tag: "02 / TECHNICAL IMPLEMENTATION & EXPERIMENTATION",
+    duration: "Weeks 04–09 • Execution / Experimental Team",
+    title: "Model Implementation, GPU Workloads & Empirical Analysis",
+    desc: "Building modular Python & PyTorch pipelines, running controlled ablation studies, conducting rigorous performance benchmarking, and validating statistical significance with full code reproducibility.",
+    deliverables: [
+      { label: "DELIVERABLE A", text: "Reproducible Git Codebase" },
+      { label: "DELIVERABLE B", text: "Ablation & Benchmark Tables" },
+      { label: "DELIVERABLE C", text: "Empirical Error Analysis" }
+    ]
+  },
+  {
+    tag: "03 / MANUSCRIPT DRAFTING & FORMATTING",
+    duration: "Weeks 10–14 • Writing & Formatting Team",
+    title: "LaTeX Paper Engineering, BibTeX & Citation Integrity",
+    desc: "Translating technical breakthroughs into publication-ready manuscripts formatted strictly to IEEE, Springer Nature, and ACM standards, with publication-grade vector diagrams and strict proofreading.",
+    deliverables: [
+      { label: "DELIVERABLE A", text: "Camera-Ready LaTeX Manuscript" },
+      { label: "DELIVERABLE B", text: "Vector Architecture Figures" },
+      { label: "DELIVERABLE C", text: "BibTeX & Citation Verification" }
+    ]
+  },
+  {
+    tag: "04 / PEER-REVIEWED VENUES & GRADUATE BRIDGES",
+    duration: "Ongoing • IEEE • Springer • ACM ICCA • ICCIT",
+    title: "Targeted Venue Submissions & International Professor Bridges",
+    desc: "Submitting peer-reviewed papers to ICCIT, ICCA (ACM), ICECTE, and Springer Nature while upholding strict contribution-based authorship ethics and connecting fellows with prospective MSc/PhD supervisors.",
+    deliverables: [
+      { label: "DELIVERABLE A", text: "Conference Rebuttal Cycles" },
+      { label: "DELIVERABLE B", text: "Published Paper & DOI Indexing" },
+      { label: "DELIVERABLE C", text: "MSc/PhD Supervisor Outreach" }
+    ]
+  }
+];
 
 export default function Hero({ org, about, announcement }) {
-  const heroRef = useRef(null);
-  const badgeRef = useRef(null);
-  const headingRef = useRef(null);
-  const textRef = useRef(null);
-  const ctaRef = useRef(null);
-  const statsRef = useRef(null);
-  const visualRef = useRef(null);
+  const [activeStage, setActiveStage] = useState(0);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
+  const openApply = () => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('open-apply-modal'));
     }
+  };
 
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 1 } });
-
-      tl.fromTo(badgeRef.current, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.8 })
-        .fromTo(headingRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1 }, '-=0.5')
-        .fromTo(textRef.current, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.9 }, '-=0.6')
-        .fromTo(ctaRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
-        .fromTo(visualRef.current, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 1.2 }, '-=0.7')
-        .fromTo(statsRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.9 }, '-=0.6');
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
+  const currentStage = PIPELINE_STAGES[activeStage];
 
   return (
-    <section
-      ref={heroRef}
-      className="relative min-h-[92vh] flex flex-col justify-between pt-28 pb-12 sm:pt-36 sm:pb-16 overflow-hidden border-b border-white/5 bg-[#050B14]"
-      style={{
-        contain: 'paint',
-        transform: 'translateZ(0)',
-      }}
-    >
-      {/* 3D Scientific Background */}
-      <ScientificConstellation />
-
-      {/* Ambient Lighting Gradients (Using zero-cost radial-gradients to prevent GPU blur stutter on scroll) */}
-      <div
-        className="absolute top-1/4 -left-48 w-[32rem] h-[32rem] rounded-full pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(0, 229, 255, 0.12) 0%, transparent 70%)',
-          transform: 'translateZ(0)',
+    <section className="relative min-h-screen bg-obsidian bg-grid-dark pt-28 pb-20 sm:pt-36 sm:pb-28 overflow-hidden flex flex-col justify-between">
+      {/* Atmospheric Cobalt Glow with Gentle Floating Animation */}
+      <motion.div
+        animate={{
+          scale: [1, 1.08, 1],
+          opacity: [0.8, 1, 0.8],
         }}
-      />
-      <div
-        className="absolute top-1/3 -right-48 w-[36rem] h-[36rem] rounded-full pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(99, 102, 241, 0.14) 0%, transparent 70%)',
-          transform: 'translateZ(0)',
+        transition={{
+          duration: 9,
+          repeat: Infinity,
+          ease: "easeInOut"
         }}
+        className="absolute inset-0 hero-glow pointer-events-none"
       />
-      <div className="absolute inset-0 scientific-grid pointer-events-none opacity-40" />
 
-      <div className="container relative z-10 my-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Main Hero Copy */}
-          <div className="lg:col-span-7 flex flex-col items-start">
-            {/* Live Cohort Status Pill */}
-            <div
-              ref={badgeRef}
-              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-400/30 backdrop-blur-md mb-6 shadow-lg shadow-cyan-950/40"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
-              </span>
-              <span className="text-xs font-semibold text-cyan-200 tracking-wide">
-                Active Cohort: 10 Researchers in Session
-              </span>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto">
+
+        {/* Top Micro-Metadata Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-wrap items-center justify-between gap-4 mb-6 sm:mb-8"
+        >
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full glass-badge cursor-default"
+          >
+            <span className="relative flex h-2 w-2 pulse-dot">
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cobalt" />
+            </span>
+            <span className="font-mono text-[11px] uppercase tracking-wider text-zinc-200">
+              Cohort Status: <strong className="text-cobalt font-semibold">Opening Soon</strong>
+            </span>
+          </motion.div>
+
+          <div className="font-mono text-[11px] uppercase tracking-widest text-zinc-400">
+            [ EST. 2026 • MENTORED BY AIUB STUDENTS ]
+          </div>
+        </motion.div>
+
+        {/* Monumental Display Headline with Staggered Kinetic Typography */}
+        <div className="relative mb-10 sm:mb-12">
+          <h1 className="font-display-tight font-bold uppercase text-white text-[3.1rem] sm:text-[5.2rem] md:text-[6.8rem] lg:text-[8.2rem] select-none leading-[0.92]">
+            <div className="overflow-hidden pb-1">
+              <motion.span
+                initial={{ y: "115%", opacity: 0, rotate: 1.5 }}
+                animate={{ y: "0%", opacity: 1, rotate: 0 }}
+                transition={{ duration: 0.85, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="inline-block"
+              >
+                RESEARCH,
+              </motion.span>
             </div>
-
-            {/* Title */}
-            <div ref={headingRef}>
-              <h1 className="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-white tracking-tight leading-[1.08] mb-4">
-                Growing Researchers.{' '}
-                <span className="text-gradient-cyan block sm:inline">Creating Impact.</span>
-              </h1>
-              <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-                <span className="w-8 h-[1px] bg-cyan-400" />
-                {org?.fullName || 'InSiamtion Research Group'} — {org?.shortForm || 'IRG'}
-              </p>
+            <div className="overflow-hidden pb-1">
+              <motion.span
+                initial={{ y: "115%", opacity: 0, rotate: -1.5 }}
+                animate={{ y: "0%", opacity: 1, rotate: 0 }}
+                transition={{ duration: 0.85, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                className="inline-block text-shimmer-cobalt"
+              >
+                REDEFINED.
+              </motion.span>
             </div>
+          </h1>
+        </div>
 
-            {/* Description */}
-            <p
-              ref={textRef}
-              className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-2xl mb-8"
-            >
-              {about?.summary ||
-                'A student-led research and mentorship organization founded by students of American International University-Bangladesh (AIUB) bridging the gap between student potential and peer-reviewed scientific publications.'}
+        {/* Asymmetric Hero Showcase: Left Editorial Pitch + Center/Right Interactive Pipeline Bento */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+
+          {/* Left Column: Real Pitch, Action Pills & Glassmorphic Social Proof */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 space-y-6"
+          >
+            <p className="text-zinc-300 text-base sm:text-lg leading-relaxed max-w-md font-normal">
+              An independent student-led research and mentorship community founded by students of <strong className="text-white font-medium">American International University-Bangladesh (AIUB)</strong>. We unite driven undergraduates into structured lab teams, mentor them through empirical inquiry and LaTeX typesetting, and publish across IEEE, Springer Nature, and ACM.
             </p>
 
-            {/* Interactive CTAs */}
-            <div ref={ctaRef} className="flex flex-wrap items-center gap-3.5 w-full sm:w-auto">
-              <a href="#teams" className="btn-primary-scientific group w-full sm:w-auto justify-center">
-                <span>Explore Research Teams</span>
-                <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-              </a>
-
-              <a href="#publications" className="btn-outline-scientific w-full sm:w-auto justify-center">
-                <FiBookOpen className="text-cyan-400" />
-                <span>Publication Venues</span>
-              </a>
-
-              <a
+            {/* Dual Action Pills with Spring Micro-Interactions */}
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              <motion.a
+                href="#teams"
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="group px-6 py-3.5 rounded-full bg-cobalt hover:bg-cobaltGlow text-white text-sm font-semibold transition-all shadow-xl shadow-cobalt/25 flex items-center gap-2 cursor-pointer"
+              >
+                <span>Explore 3 Research Labs</span>
+                <FiArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-200" />
+              </motion.a>
+              <motion.a
                 href="https://discord.gg/5UQXTqJy7"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#5865F2]/40 transition w-full sm:w-auto"
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="group px-6 py-3.5 rounded-full glass-badge hover:bg-white/[0.08] text-zinc-200 text-sm font-medium transition-colors flex items-center gap-2"
               >
-                <FaDiscord className="text-[#5865F2] text-base" />
-                <span>Discord Training Lab</span>
-              </a>
+                <FaDiscord className="text-cobalt text-base group-hover:rotate-6 transition-transform duration-200" />
+                <span>Discord Community</span>
+              </motion.a>
             </div>
 
-            {/* Scientific Trust Tokens */}
-            <div className="mt-8 flex flex-wrap items-center gap-6 pt-6 border-t border-white/10 text-xs text-slate-400">
-              <div className="flex items-center gap-2">
-                <FiCpu className="text-cyan-400 text-sm" />
-                <span>AI, ML & Computing Rigor</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FiLayers className="text-indigo-400 text-sm" />
-                <span>Peer-to-Peer Mentorship</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FiShield className="text-emerald-400 text-sm" />
-                <span>Ethical Authorship Standard</span>
-              </div>
+            {/* Floating Glassmorphic Proof Badges with Hover Springs */}
+            <div className="grid grid-cols-2 gap-3 pt-4 max-w-md">
+              <motion.div
+                whileHover={{ y: -4, borderColor: 'rgba(37, 99, 235, 0.4)' }}
+                transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                className="p-4 rounded-2xl glass-badge transition-colors"
+              >
+                <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-400 mb-1">Active Cohort</div>
+                <div className="font-display font-bold text-2xl text-white">40+ &rarr; 10</div>
+                <div className="text-xs text-zinc-400 mt-0.5">Selected AIUB fellows</div>
+              </motion.div>
+              <motion.div
+                whileHover={{ y: -4, borderColor: 'rgba(37, 99, 235, 0.4)' }}
+                transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                className="p-4 rounded-2xl glass-badge transition-colors"
+              >
+                <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-400 mb-1">Target Venues</div>
+                <div className="font-display font-bold text-2xl text-white">IEEE &amp; Springer</div>
+                <div className="text-xs text-zinc-400 mt-0.5">ACM ICCA • ICCIT</div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Hero Visual Showcase */}
-          <div ref={visualRef} className="lg:col-span-5 relative">
-            <div className="relative mx-auto max-w-md lg:max-w-none">
-              {/* Decorative Frame */}
-              <div className="relative rounded-2xl p-1 bg-gradient-to-br from-cyan-500/30 via-white/10 to-indigo-500/30 shadow-2xl shadow-cyan-950/40">
-                <div className="relative rounded-[14px] overflow-hidden bg-slate-950 aspect-[16/10] sm:aspect-[4/3] group">
-                  <Image
-                    src="/images/neural_mesh_hero.jpg"
-                    alt="Scientific neural computational mesh visualization"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050B14] via-[#050B14]/30 to-transparent" />
-
-                  {/* Scientific Overlay Details */}
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-mono text-cyan-300">
-                    IRG LAB // NETWORK NODE 01
-                  </div>
-
-                  <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-slate-950/80 backdrop-blur-md border border-white/10">
-                    <div className="flex items-center justify-between text-xs text-slate-300 mb-1">
-                      <span className="font-semibold text-white">Neural Cluster Modeling</span>
-                      <span className="text-cyan-400 font-mono text-[11px]">ACTIVE EXPERIMENT</span>
-                    </div>
-                    <p className="text-[11px] text-slate-400 line-clamp-2">
-                      Experimental design across IEEE, Springer Nature, and leading computing conference tracks.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating Lab Emblem Card */}
-              <div className="absolute -bottom-6 -left-4 sm:-bottom-8 sm:-left-6 p-3 sm:p-4 rounded-xl bg-slate-900/90 backdrop-blur-xl border border-cyan-500/30 shadow-2xl flex items-center gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center overflow-hidden p-1">
-                  <Image
-                    src="/logo.png"
-                    alt="IRG Logo"
-                    width={40}
-                    height={40}
-                    className="object-contain"
-                  />
-                </div>
-                <div>
-                  <div className="text-xs sm:text-sm font-bold text-white">InSiamtion Research</div>
-                  <div className="text-[10px] sm:text-xs text-cyan-300">AIUB Student-Led Community</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Verifiable Key Metrics Strip */}
-        <div ref={statsRef} className="mt-16 sm:mt-24 pt-8">
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-            <CounterStat
-              end={40}
-              suffix="+"
-              label="Candidates Evaluated"
-              subtext="Competitive application pool"
-            />
-            <CounterStat
-              end={10}
-              label="Selected Researchers"
-              subtext="Selected for current cycle"
-            />
-            <CounterStat
-              end={3}
-              label="Specialized Labs"
-              subtext="Idea, Execution & Writing"
-            />
-            <CounterStat
-              end={8}
-              suffix="+"
-              label="Target Venues"
-              subtext="IEEE, Springer, ACM, ICCIT"
-            />
-            <div className="col-span-2 sm:col-span-1">
-              <CounterStat
-                end={10}
-                prefix="6–"
-                suffix="h"
-                label="Weekly Commitment"
-                subtext="Rigorous research dedication"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="mt-12 flex justify-center">
-          <a
-            href="#about"
-            className="flex flex-col items-center gap-1.5 text-slate-500 hover:text-cyan-400 transition-colors group"
-            aria-label="Scroll to About Section"
+          {/* Right Column: Interactive Research Lifecycle Bento Centerpiece with Spotlight */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7"
           >
-            <span className="text-[10px] uppercase tracking-widest font-mono">Explore Research</span>
-            <div className="w-5 h-8 rounded-full border border-slate-700 flex items-start justify-center p-1 group-hover:border-cyan-400 transition-colors">
-              <div className="w-1 h-2 bg-cyan-400 rounded-full animate-bounce" />
-            </div>
-          </a>
+            <SpotlightCard
+              spotlightColor="rgba(37, 99, 235, 0.16)"
+              spotlightSize={420}
+              hoverLift={false}
+              className="rounded-3xl glass-badge p-5 sm:p-7 border border-white/10"
+            >
+              {/* Top Bento Header */}
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-4 mb-5 border-b border-white/10">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-cobalt animate-pulse" />
+                  <span className="font-mono text-xs uppercase tracking-wider text-zinc-300">
+                    IRG End-to-End Research Pipeline
+                  </span>
+                </div>
+                <span className="font-mono text-[11px] text-zinc-500">
+                  INTERACTIVE WORKFLOW // 3 TEAMS
+                </span>
+              </div>
+
+              {/* Interactive Stage Selector Pills with Kinetic Layout Indicator */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+                {[
+                  { stage: 'STAGE 01', title: 'Idea Proposal' },
+                  { stage: 'STAGE 02', title: 'Execution' },
+                  { stage: 'STAGE 03', title: 'Writing & LaTeX' },
+                  { stage: 'STAGE 04', title: 'Publication' },
+                ].map((item, idx) => {
+                  const isActive = activeStage === idx;
+                  return (
+                    <motion.button
+                      key={item.stage}
+                      onClick={() => setActiveStage(idx)}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`relative text-left p-3 rounded-2xl border transition-colors cursor-pointer ${isActive
+                        ? 'border-cobalt/60 text-white'
+                        : 'border-white/10 bg-white/[0.02] hover:bg-white/[0.05] text-zinc-300'
+                        }`}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeHeroStagePill"
+                          className="absolute inset-0 bg-cobalt/20 rounded-2xl -z-10 shadow-[0_0_15px_rgba(37,99,235,0.25)]"
+                          transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+                        />
+                      )}
+                      <div
+                        className={`font-mono text-[10px] font-semibold ${isActive ? 'text-cobaltGlow' : 'text-zinc-400'
+                          }`}
+                      >
+                        {item.stage}
+                      </div>
+                      <div className="font-display font-semibold text-xs sm:text-sm mt-0.5">
+                        {item.title}
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+
+              {/* Dynamic Stage Content Display with Smooth Crossfade */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeStage}
+                  initial={{ opacity: 0, y: 10, filter: 'blur(3px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, y: -10, filter: 'blur(3px)' }}
+                  transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+                  className="bg-obsidian/80 rounded-2xl p-5 sm:p-6 border border-white/[0.07] shadow-inner"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <span className="font-mono text-[11px] uppercase tracking-widest text-cobalt bg-cobalt/10 px-2.5 py-1 rounded-md font-semibold border border-cobalt/20">
+                      {currentStage.tag}
+                    </span>
+                    <span className="font-mono text-xs text-zinc-400">
+                      {currentStage.duration}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display font-bold text-xl sm:text-2xl text-white mb-2">
+                    {currentStage.title}
+                  </h3>
+
+                  <p className="text-sm text-zinc-300 leading-relaxed mb-5">
+                    {currentStage.desc}
+                  </p>
+
+                  {/* Deliverable Micro-Cards with Subtle Hover Elevation */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-4 border-t border-white/10">
+                    {currentStage.deliverables.map((d, i) => (
+                      <motion.div
+                        key={i}
+                        whileHover={{ scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 0.06)' }}
+                        transition={{ duration: 0.2 }}
+                        className="bg-white/[0.03] px-3 py-2.5 rounded-xl border border-white/[0.05] transition-colors"
+                      >
+                        <div className="font-mono text-[10px] text-zinc-500 font-semibold">{d.label}</div>
+                        <div className="text-xs font-medium text-zinc-200 mt-0.5">{d.text}</div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </SpotlightCard>
+          </motion.div>
+
         </div>
       </div>
     </section>

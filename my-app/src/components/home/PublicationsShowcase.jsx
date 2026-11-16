@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react';
-import { FiBookOpen, FiAward, FiExternalLink, FiCheckCircle, FiShield, FiFileText, FiLayers, FiCompass } from 'react-icons/fi';
+import { FiBookOpen, FiCheckCircle, FiShield } from 'react-icons/fi';
+import SpotlightCard from '@/components/ui/SpotlightCard';
 
 const VENUE_DETAILS = [
   {
@@ -72,105 +72,112 @@ const VENUE_DETAILS = [
 
 export default function PublicationsShowcase({ featuredResearch, authorshipPolicy }) {
   const summary = featuredResearch?.summary || '';
-  const highlights = featuredResearch?.highlights || [];
-  const venues = featuredResearch?.venues || [];
 
   return (
-    <section id="publications" className="scroll-mt-24 sm:scroll-mt-28 py-20 sm:py-28 relative bg-[#050B14] overflow-hidden border-t border-white/5">
+    <section id="publications" className="scroll-mt-24 sm:scroll-mt-28 py-20 sm:py-28 relative bg-[var(--bg-deep)] overflow-hidden border-t border-[var(--border-subtle)] transition-colors duration-200">
       {/* Background Glow */}
-      <div className="absolute top-1/4 right-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-10 left-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-[150px] pointer-events-none" />
+      <div 
+        className="absolute top-1/4 right-0 w-96 h-96 rounded-full blur-[150px] pointer-events-none opacity-40"
+        style={{ background: 'var(--accent-cyan-subtle)' }}
+      />
+      <div 
+        className="absolute bottom-10 left-10 w-96 h-96 rounded-full blur-[150px] pointer-events-none opacity-40"
+        style={{ background: 'var(--accent-violet-subtle)' }}
+      />
 
       <div className="container relative z-10">
         {/* Header */}
         <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono font-semibold tracking-wider uppercase mb-4">
-            <FiBookOpen />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent-cyan-subtle)] border border-[var(--border-active)] text-[var(--accent-cyan)] text-xs font-mono font-semibold tracking-wider uppercase mb-4">
+            <FiBookOpen aria-hidden="true" />
             <span>03 // Academic Contributions</span>
           </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">
+          <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-[var(--text-primary)] tracking-tight leading-tight">
             Peer-Reviewed Venues &{' '}
             <span className="text-gradient-cyan">Publication Rigor</span>
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
             {summary ||
               'IRG members actively target reputable conference publications across IEEE, Springer Nature, ACM Digital Library (ICCA), Atlantis Press, and premier conferences including ICCIT, ICECTE, QPAIN, and IDAA, steadily building toward upcoming journal milestones.'}
           </p>
         </div>
 
-        {/* Venues Interactive Grid */}
+        {/* Venues Interactive Grid with Skiper UI Spotlight Cursor Tracking */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {VENUE_DETAILS.map((v) => (
-            <div
+            <SpotlightCard
               key={v.name}
-              className="p-6 rounded-2xl glass-panel glass-panel-hover border border-white/10 flex flex-col justify-between group"
+              className="p-6 border border-[var(--border-subtle)] flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-display font-bold text-2xl text-white group-hover:text-cyan-300 transition-colors">
+                  <span className="font-display font-bold text-2xl text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)] transition-colors">
                     {v.name}
                   </span>
-                  <span className="text-[10px] font-mono font-semibold px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+                  <span className="text-[10px] font-mono font-semibold px-2.5 py-1 rounded-full bg-[var(--accent-cyan-subtle)] text-[var(--accent-cyan)] border border-[var(--border-active)]">
                     {v.badge}
                   </span>
                 </div>
 
-                <div className="text-xs font-semibold text-slate-300 mb-2">
+                <div className="text-xs font-semibold text-[var(--text-primary)] mb-2">
                   {v.category}
                 </div>
 
-                <p className="text-xs text-slate-400 leading-relaxed mb-4">
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-4">
                   {v.description}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-white/5 space-y-1.5 text-[11px]">
-                <div className="flex items-center gap-1.5 text-slate-400">
-                  <span className="font-mono text-cyan-400 font-semibold">INDEX:</span>
-                  <span className="text-slate-300">{v.index}</span>
+              <div className="pt-4 border-t border-[var(--border-subtle)] space-y-1.5 text-[11px]">
+                <div className="flex items-center gap-1.5 text-[var(--text-muted)]">
+                  <span className="font-mono text-[var(--accent-cyan)] font-semibold">INDEX:</span>
+                  <span className="text-[var(--text-secondary)]">{v.index}</span>
                 </div>
-                <div className="flex items-start gap-1.5 text-slate-400">
-                  <span className="font-mono text-cyan-400 font-semibold">FOCUS:</span>
-                  <span className="text-slate-300 line-clamp-1">{v.focus}</span>
+                <div className="flex items-start gap-1.5 text-[var(--text-muted)]">
+                  <span className="font-mono text-[var(--accent-cyan)] font-semibold">FOCUS:</span>
+                  <span className="text-[var(--text-secondary)] line-clamp-1">{v.focus}</span>
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
           ))}
 
           {/* Roadmap Milestone Card */}
-          <div className="p-6 rounded-2xl glass-panel border border-cyan-500/30 bg-gradient-to-br from-cyan-950/40 via-slate-900/60 to-indigo-950/40 flex flex-col justify-between">
+          <SpotlightCard
+            spotlightColor="rgba(16, 185, 129, 0.15)"
+            className="p-6 border border-[var(--border-active)] bg-gradient-to-br from-[var(--accent-cyan-subtle)] via-[var(--bg-card)] to-[var(--accent-violet-subtle)] flex flex-col justify-between shadow-sm"
+          >
             <div>
               <div className="flex items-center justify-between mb-4">
-                <span className="font-display font-bold text-2xl text-white">
+                <span className="font-display font-bold text-2xl text-[var(--text-primary)]">
                   Journal Milestone
                 </span>
-                <span className="text-[10px] font-mono font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span className="text-[10px] font-mono font-semibold px-2.5 py-1 rounded-full bg-[var(--accent-emerald-subtle)] text-[var(--accent-emerald)] border border-[var(--accent-emerald)]/30">
                   ROADMAP
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
                 Our active phase targets prestigious peer-reviewed conference publications. As research iterations mature, our teams advance their findings toward high-impact Q1/Q2 journal submissions.
               </p>
             </div>
-            <div className="pt-4 border-t border-white/10 text-xs font-mono text-cyan-300 flex items-center justify-between">
+            <div className="pt-4 border-t border-[var(--border-subtle)] text-xs font-mono text-[var(--accent-cyan)] flex items-center justify-between">
               <span>Next Horizon</span>
-              <span>Scopus & Web of Science</span>
+              <span className="font-semibold">Scopus & Web of Science</span>
             </div>
-          </div>
+          </SpotlightCard>
         </div>
 
         {/* Authorship & Publication Ethics Policy Box */}
-        <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-white/10 bg-slate-900/50">
+        <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-[var(--border-subtle)] bg-[var(--bg-card)]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-5">
-              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider mb-2">
-                <FiShield />
+              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[var(--accent-cyan)] uppercase tracking-wider mb-2">
+                <FiShield aria-hidden="true" />
                 <span>Ethical Authorship Standards</span>
               </div>
-              <h3 className="font-display font-bold text-xl sm:text-2xl text-white mb-3">
+              <h3 className="font-display font-bold text-xl sm:text-2xl text-[var(--text-primary)] mb-3">
                 Merit-Based, Transparent Academic Authorship
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
                 IRG strictly adheres to international Committee on Publication Ethics (COPE) guidelines. Authorship is earned strictly through substantive intellectual and empirical contributions.
               </p>
             </div>
@@ -183,12 +190,12 @@ export default function PublicationsShowcase({ featuredResearch, authorshipPolic
                   { title: 'Writing & Synthesis', desc: 'Drafting the manuscript, literature synthesis, and revision.' },
                   { title: 'Research Integrity', desc: 'Zero plagiarism, reproducibility, and verified data provenance.' }
                 ].map((item, i) => (
-                  <div key={i} className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
-                    <div className="text-xs font-semibold text-white mb-1 flex items-center gap-2">
-                      <FiCheckCircle className="text-cyan-400 shrink-0" />
+                  <div key={i} className="p-3.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] transition-colors">
+                    <div className="text-xs font-semibold text-[var(--text-primary)] mb-1 flex items-center gap-2">
+                      <FiCheckCircle className="text-[var(--accent-cyan)] shrink-0" aria-hidden="true" />
                       <span>{item.title}</span>
                     </div>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">{item.desc}</p>
+                    <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
               </div>

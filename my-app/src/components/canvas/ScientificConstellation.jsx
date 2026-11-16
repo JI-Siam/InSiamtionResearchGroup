@@ -45,7 +45,7 @@ export default function ScientificConstellation() {
       return;
     }
 
-    // Optimized particle count: 42 nodes (drastically reduces distance calculations while keeping density)
+    // Optimized particle count: 42 nodes
     const particleCount = 42;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
@@ -66,13 +66,15 @@ export default function ScientificConstellation() {
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
+    const isCurrentDark = typeof document !== 'undefined' ? document.documentElement.classList.contains('dark') : true;
+
     // Particle Material
     const particleMaterial = new THREE.PointsMaterial({
-      color: 0x00e5ff,
+      color: isCurrentDark ? 0x00e5ff : 0x0284c7,
       size: 3.2,
       transparent: true,
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending,
+      opacity: isCurrentDark ? 0.8 : 0.6,
+      blending: isCurrentDark ? THREE.AdditiveBlending : THREE.NormalBlending,
     });
 
     const particles = new THREE.Points(geometry, particleMaterial);
@@ -80,10 +82,10 @@ export default function ScientificConstellation() {
 
     // Connecting Lines Material
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0x2563eb,
+      color: isCurrentDark ? 0x2563eb : 0x64748b,
       transparent: true,
-      opacity: 0.22,
-      blending: THREE.AdditiveBlending,
+      opacity: isCurrentDark ? 0.22 : 0.25,
+      blending: isCurrentDark ? THREE.AdditiveBlending : THREE.NormalBlending,
     });
 
     const maxConnections = particleCount * particleCount;
@@ -92,6 +94,23 @@ export default function ScientificConstellation() {
     lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
     const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
     scene.add(lines);
+
+    // Update material colors if theme changes
+    const themeObserver = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains('dark');
+      particleMaterial.color.setHex(isDark ? 0x00e5ff : 0x0284c7);
+      particleMaterial.opacity = isDark ? 0.8 : 0.6;
+      particleMaterial.blending = isDark ? THREE.AdditiveBlending : THREE.NormalBlending;
+      lineMaterial.color.setHex(isDark ? 0x2563eb : 0x64748b);
+      lineMaterial.opacity = isDark ? 0.22 : 0.25;
+      lineMaterial.blending = isDark ? THREE.AdditiveBlending : THREE.NormalBlending;
+      particleMaterial.needsUpdate = true;
+      lineMaterial.needsUpdate = true;
+    });
+
+    if (typeof document !== 'undefined') {
+      themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    }
 
     // Mouse Tracking for Parallax (smoothed)
     let mouseX = 0;
@@ -146,7 +165,6 @@ export default function ScientificConstellation() {
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      // Skip frame if Hero is not in viewport
       if (!isVisible) return;
 
       // Mouse follow
@@ -160,45 +178,55 @@ export default function ScientificConstellation() {
       camera.position.y = -mouseY;
       camera.lookAt(scene.position);
 
-      // During active scroll burst, skip the O(N^2) buffer recomputation to preserve 120Hz/60Hz compositor
       if (isScrolling) {
         renderer.render(scene, camera);
         return;
       }
 
-      const pos = geometry.attributes.position.array;
-      let lineIndex = 0;
+      // Update particle positions
+      const pArr = geometry.attributes.position.array;
+      const boundX = spread * 0.55;
+      const boundY = spread * 0.35;
+      const boundZ = spread * 0.25;
 
       for (let i = 0; i < particleCount; i++) {
-        const i3 = i * 3;
-        pos[i3] += velocities[i].x;
-        pos[i3 + 1] += velocities[i].y;
-        pos[i3 + 2] += velocities[i].z;
+        pArr[i * 3] += velocities[i].x;
+        pArr[i * 3 + 1] += velocities[i].y;
+        pArr[i * 3 + 2] += velocities[i].z;
 
-        if (Math.abs(pos[i3]) > spread / 2) velocities[i].x *= -1;
-        if (Math.abs(pos[i3 + 1]) > (spread * 0.65) / 2) velocities[i].y *= -1;
-        if (Math.abs(pos[i3 + 2]) > (spread * 0.4) / 2) velocities[i].z *= -1;
+        if (Math.abs(pArr[i * 3]) > boundX) velocities[i].x *= -1;
+        if (Math.abs(pArr[i * 3 + 1]) > boundY) velocities[i].y *= -1;
+        if (Math.abs(pArr[i * 3 + 2]) > boundZ) velocities[i].z *= -1;
+      }
+      geometry.attributes.position.needsUpdate = true;
+
+      // Update lines between nearby particles
+      let lineIndex = 0;
+      const lArr = lineGeometry.attributes.position.array;
+
+      for (let i = 0; i < particleCount; i++) {
+        const x1 = pArr[i * 3];
+        const y1 = pArr[i * 3 + 1];
+        const z1 = pArr[i * 3 + 2];
 
         for (let j = i + 1; j < particleCount; j++) {
-          const j3 = j * 3;
-          const dx = pos[i3] - pos[j3];
-          const dy = pos[i3 + 1] - pos[j3 + 1];
-          const dz = pos[i3 + 2] - pos[j3 + 2];
+          const dx = x1 - pArr[j * 3];
+          const dy = y1 - pArr[j * 3 + 1];
+          const dz = z1 - pArr[j * 3 + 2];
           const distSq = dx * dx + dy * dy + dz * dz;
 
           if (distSq < maxDistance * maxDistance) {
-            linePositions[lineIndex++] = pos[i3];
-            linePositions[lineIndex++] = pos[i3 + 1];
-            linePositions[lineIndex++] = pos[i3 + 2];
+            lArr[lineIndex++] = x1;
+            lArr[lineIndex++] = y1;
+            lArr[lineIndex++] = z1;
 
-            linePositions[lineIndex++] = pos[j3];
-            linePositions[lineIndex++] = pos[j3 + 1];
-            linePositions[lineIndex++] = pos[j3 + 2];
+            lArr[lineIndex++] = pArr[j * 3];
+            lArr[lineIndex++] = pArr[j * 3 + 1];
+            lArr[lineIndex++] = pArr[j * 3 + 2];
           }
         }
       }
 
-      geometry.attributes.position.needsUpdate = true;
       lineGeometry.setDrawRange(0, lineIndex / 3);
       lineGeometry.attributes.position.needsUpdate = true;
 
@@ -214,6 +242,7 @@ export default function ScientificConstellation() {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
       observer.disconnect();
+      themeObserver.disconnect();
       if (scrollTimeout) clearTimeout(scrollTimeout);
 
       if (container && renderer.domElement && container.contains(renderer.domElement)) {
@@ -238,7 +267,7 @@ export default function ScientificConstellation() {
       }}
       aria-hidden="true"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-[#050B14]/40 via-transparent to-[#050B14] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-deep)]/40 via-transparent to-[var(--bg-deep)] pointer-events-none transition-colors duration-200" />
     </div>
   );
 }

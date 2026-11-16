@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react';
+import SpotlightCard from '@/components/ui/SpotlightCard';
 
 export default function CounterStat({ end, duration = 2000, prefix = '', suffix = '', label, subtext }) {
   const targetNumber = typeof end === 'number' ? end : parseInt(end, 10) || 0;
@@ -9,7 +10,6 @@ export default function CounterStat({ end, duration = 2000, prefix = '', suffix 
   const hasAnimatedRef = useRef(false);
 
   useEffect(() => {
-    // If reduced motion is requested, immediately set target
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       window.requestAnimationFrame(() => setCount(targetNumber));
       return;
@@ -25,7 +25,6 @@ export default function CounterStat({ end, duration = 2000, prefix = '', suffix 
           const step = (timestamp) => {
             if (!startTime) startTime = timestamp;
             const progress = Math.min((timestamp - startTime) / duration, 1);
-            // Ease out quad
             const easeOutProgress = 1 - (1 - progress) * (1 - progress);
             setCount(Math.floor(easeOutProgress * targetNumber));
 
@@ -55,21 +54,22 @@ export default function CounterStat({ end, duration = 2000, prefix = '', suffix 
   }, [targetNumber, duration]);
 
   return (
-    <div ref={elementRef} className="flex flex-col items-start p-4 md:p-6 rounded-xl glass-panel glass-panel-hover border border-white/5 relative overflow-hidden group">
-      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-cyan-500/10 to-transparent pointer-events-none rounded-bl-full transition-transform duration-500 group-hover:scale-125" />
-      <div className="flex items-baseline gap-1 font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
-        <span>{prefix}</span>
-        <span className="text-gradient-cyan">{count}</span>
-        <span className="text-cyan-400">{suffix}</span>
-      </div>
-      <div className="mt-2 text-sm md:text-base font-semibold text-slate-200 tracking-wide">
-        {label}
-      </div>
-      {subtext && (
-        <div className="mt-1 text-xs text-slate-400 leading-relaxed">
-          {subtext}
+    <div ref={elementRef} className="h-full">
+      <SpotlightCard className="p-4 md:p-6 border border-[var(--border-subtle)] h-full">
+        <div className="flex items-baseline gap-1 font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-[var(--text-primary)] tracking-tight">
+          <span>{prefix}</span>
+          <span className="text-gradient-cyan">{count}</span>
+          <span className="text-[var(--accent-cyan)]">{suffix}</span>
         </div>
-      )}
+        <div className="mt-2 text-sm md:text-base font-semibold text-[var(--text-primary)] tracking-wide">
+          {label}
+        </div>
+        {subtext && (
+          <div className="mt-1 text-xs text-[var(--text-muted)] leading-relaxed">
+            {subtext}
+          </div>
+        )}
+      </SpotlightCard>
     </div>
   );
 }

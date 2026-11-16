@@ -1,172 +1,167 @@
 'use client'
 
-import { 
-  FiShield, 
-  FiUsers, 
-  FiCheckCircle, 
-  FiClock, 
-  FiLock, 
-  FiTrendingUp, 
-  FiAward, 
-  FiCompass, 
-  FiCpu, 
-  FiTarget,
-  FiZap
-} from 'react-icons/fi';
-
-const VALUE_ICONS = {
-  Collaboration: FiUsers,
-  Integrity: FiShield,
-  Innovation: FiZap,
-  Discipline: FiTarget,
-  Growth: FiTrendingUp,
-  Accountability: FiCheckCircle,
-  Mentorship: FiAward,
-  Excellence: FiCompass,
-};
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { FiClock, FiLock, FiArrowRight, FiCheckCircle } from 'react-icons/fi';
+import SpotlightCard from '@/components/ui/SpotlightCard';
+import AnimatedHeading from '@/components/ui/AnimatedHeading';
 
 export default function ValuesAndPhilosophy({ philosophy = [], values = [], expectations = [], confidentiality = [] }) {
+  const coreValues = values.length > 0 ? values : [
+    "Collaboration", "Integrity", "Innovation", "Discipline",
+    "Growth", "Accountability", "Mentorship", "Excellence"
+  ];
+
   return (
-    <section id="values" className="scroll-mt-24 sm:scroll-mt-28 py-20 sm:py-28 relative bg-[#050B14] overflow-hidden border-t border-white/5">
-      {/* Ambient Lighting */}
-      <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-cyan-600/10 rounded-full blur-[160px] pointer-events-none" />
+    <section id="values" className="bg-obsidian bg-grid-dark text-white py-24 sm:py-32 border-t border-white/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div className="container relative z-10">
-        {/* Header */}
-        <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono font-semibold tracking-wider uppercase mb-4">
-            <FiShield />
-            <span>06 // Ethics, Values & Governance</span>
+        {/* Editorial Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14"
+        >
+          <div>
+            <div className="font-mono text-xs uppercase tracking-widest text-cobalt font-semibold mb-3">
+              [ 05 / CULTURE &amp; ETHICS ]
+            </div>
+            <AnimatedHeading
+              text="Values, Discipline & Rigor"
+              as="h2"
+              className="font-display-tight font-bold text-4xl sm:text-5xl lg:text-6xl text-white"
+              highlightWords={["Discipline", "Rigor"]}
+              highlightClass="text-cobaltGlow"
+            />
           </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">
-            Built on Rigor, Integrity &{' '}
-            <span className="text-gradient-cyan">Collaborative Honor</span>
-          </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-            Excellence in research is not merely about algorithmic benchmarks; it requires unwavering academic honesty, disciplined teamwork, and deep respect for intellectual contributions.
-          </p>
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono uppercase tracking-wider text-cobalt hover:text-white transition-colors group"
+          >
+            <span>Read Full Constitution</span>
+            <FiArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform duration-200" />
+          </Link>
+        </motion.div>
+
+        {/* 8 Core Values Responsive Strip with Spring Hover Lift */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 mb-12">
+          {coreValues.map((val, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: idx * 0.05 }}
+              whileHover={{ 
+                y: -5, 
+                scale: 1.04, 
+                borderColor: 'rgba(37, 99, 235, 0.8)',
+                boxShadow: '0 10px 25px -5px rgba(37, 99, 235, 0.25)'
+              }}
+              className="p-4 rounded-2xl glass-badge border border-white/10 text-center transition-colors group cursor-default"
+            >
+              <div className="font-mono text-[10px] text-zinc-500 group-hover:text-cobaltGlow mb-1 font-semibold transition-colors duration-200">
+                0{idx + 1}
+              </div>
+              <div className="font-display font-semibold text-xs sm:text-sm text-white group-hover:text-zinc-100 transition-colors">
+                {val}
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* 8 Core Values Grid */}
-        <div className="mb-20">
-          <div className="text-xs font-mono uppercase tracking-widest text-slate-400 font-semibold mb-6 flex items-center gap-2">
-            <span className="w-6 h-[1px] bg-cyan-400" />
-            <span>Eight Core Values</span>
-          </div>
+        {/* Streamlined 2-Column Bento: Cadence + Confidentiality with Spotlight Tracking */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {values.map((val) => {
-              const Icon = VALUE_ICONS[val] || FiAward;
-              return (
-                <div
-                  key={val}
-                  className="p-5 rounded-xl glass-panel glass-panel-hover border border-white/5 flex flex-col items-center text-center group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 flex items-center justify-center text-xl mb-3 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all duration-300">
-                    <Icon />
-                  </div>
-                  <h3 className="font-display font-bold text-sm sm:text-base text-white group-hover:text-cyan-300 transition-colors">
-                    {val}
-                  </h3>
-                  <span className="mt-1 text-[10px] font-mono text-slate-400 tracking-wider">
-                    IRG STANDARD
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Philosophy & Membership Expectations (2 Columns) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          {/* Philosophy Column */}
-          <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-white/10 bg-slate-900/50">
-            <div className="text-xs font-mono uppercase tracking-wider text-cyan-400 font-semibold mb-3 flex items-center gap-2">
-              <FiCompass />
-              <span>Organizational Philosophy</span>
-            </div>
-            <h3 className="font-display font-bold text-xl text-white mb-6">
-              How We Think & Operate
-            </h3>
-
-            <div className="space-y-4">
-              {philosophy.map((item, idx) => (
-                <div key={idx} className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
-                  <div className="w-6 h-6 rounded-md bg-cyan-500/15 text-cyan-300 flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5">
-                    {idx + 1}
-                  </div>
-                  <p className="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed">
-                    {item}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Membership Expectations Column */}
-          <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-white/10 bg-slate-900/50 flex flex-col justify-between">
-            <div>
-              <div className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-semibold mb-3 flex items-center gap-2">
-                <FiClock />
-                <span>Membership Expectations</span>
-              </div>
-              <h3 className="font-display font-bold text-xl text-white mb-6">
-                Commitment to Research Excellence
-              </h3>
-
-              <div className="space-y-4">
-                {expectations.map((exp, idx) => (
-                  <div key={idx} className="flex items-start gap-3.5 p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
-                    <div className="w-6 h-6 rounded-md bg-emerald-500/15 text-emerald-400 flex items-center justify-center font-mono text-xs font-bold shrink-0 mt-0.5">
-                      ✓
-                    </div>
-                    <p className="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed">
-                      {exp}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-center justify-between">
-              <span className="font-mono font-semibold">WEEKLY DEDICATION</span>
-              <span className="font-bold">6 – 10 Hours Minimum</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Confidentiality & Intellectual Property Protocol */}
-        <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-amber-500/30 bg-gradient-to-r from-amber-950/20 via-slate-900/60 to-slate-900/80">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 text-xl">
-                <FiLock />
-              </div>
+          {/* Column 1: Cadence & Weekly Rigor */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 h-full"
+          >
+            <SpotlightCard
+              spotlightColor="rgba(37, 99, 235, 0.16)"
+              spotlightSize={400}
+              className="rounded-3xl bg-obsidianSurface border border-obsidianBorder p-8 sm:p-10 flex flex-col justify-between h-full"
+            >
               <div>
-                <div className="text-xs font-mono uppercase tracking-wider text-amber-400 font-semibold mb-1">
-                  Confidentiality & Intellectual Property Protocol
+                <div className="flex items-center gap-2 text-cobalt font-mono text-xs uppercase tracking-wider font-semibold mb-4">
+                  <FiClock size={15} />
+                  <span>MEMBERSHIP CADENCE</span>
                 </div>
-                <h4 className="font-display font-bold text-base sm:text-lg text-white mb-1">
-                  Protection of Pre-Publication Scientific Assets
-                </h4>
-                <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-                  All research ideas, algorithmic draft models, experimental datasets, and manuscript drafts remain strictly confidential within IRG. No unpublished work may be shared externally without explicit lab authorization.
+                <h3 className="font-display font-bold text-2xl sm:text-3xl text-white mb-3">
+                  6–10 Hours Weekly Dedicated Research
+                </h3>
+                <p className="text-sm sm:text-base text-zinc-300 leading-relaxed mb-6">
+                  Research requires consistency over bursts. Fellows commit to uninterrupted weekly hours for paper reading, experimental runs, and code reviews in weekly syncs.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-zinc-200">
+                  <motion.div 
+                    whileHover={{ x: 3 }}
+                    className="flex items-center gap-2.5 p-2 rounded-xl bg-white/[0.02] border border-white/[0.04]"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-cobalt animate-pulse" />
+                    <span>Weekly Discord Sprints</span>
+                  </motion.div>
+                  <motion.div 
+                    whileHover={{ x: 3 }}
+                    className="flex items-center gap-2.5 p-2 rounded-xl bg-white/[0.02] border border-white/[0.04]"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-cobalt animate-pulse" />
+                    <span>Peer Code Review</span>
+                  </motion.div>
+                </div>
+              </div>
+
+              <div className="pt-5 mt-6 border-t border-white/10 font-mono text-xs text-zinc-500">
+                DISCIPLINE • CONTINUOUS SKILL ADVANCEMENT • AIUB
+              </div>
+            </SpotlightCard>
+          </motion.div>
+
+          {/* Column 2: Confidentiality & Philosophy */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 h-full"
+          >
+            <SpotlightCard
+              spotlightColor="rgba(37, 99, 235, 0.16)"
+              spotlightSize={380}
+              className="rounded-3xl bg-obsidianSurface border border-obsidianBorder p-8 sm:p-10 flex flex-col justify-between h-full"
+            >
+              <div>
+                <div className="flex items-center gap-2 text-cobalt font-mono text-xs uppercase tracking-wider font-semibold mb-4">
+                  <FiLock size={15} />
+                  <span>CONFIDENTIALITY &amp; ETHICS</span>
+                </div>
+                <h3 className="font-display font-bold text-2xl sm:text-3xl text-white mb-3">
+                  Protecting Pre-Print IP
+                </h3>
+                <p className="text-sm sm:text-base text-zinc-400 leading-relaxed mb-6">
+                  Unpublished ideas, draft manuscripts, and experimental data remain strictly protected within the collective until formal camera-ready release.
                 </p>
               </div>
-            </div>
 
-            <div className="shrink-0 flex flex-wrap gap-2">
-              <span className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[11px] font-mono text-amber-300">
-                Zero Plagiarism
-              </span>
-              <span className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[11px] font-mono text-amber-300">
-                Protected Datasets
-              </span>
-              <span className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-[11px] font-mono text-amber-300">
-                Authorized Submissions
-              </span>
-            </div>
-          </div>
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+                className="p-4 rounded-xl bg-cobalt/10 border border-cobalt/25 flex items-start gap-3"
+              >
+                <FiCheckCircle className="text-cobalt shrink-0 mt-0.5" size={16} />
+                <span className="font-mono text-xs text-zinc-300">
+                  Strict non-disclosure on pending conference submissions &amp; datasets.
+                </span>
+              </motion.div>
+            </SpotlightCard>
+          </motion.div>
+
         </div>
       </div>
     </section>

@@ -1,191 +1,289 @@
 'use client'
 
-import { useRef, useEffect } from 'react';
-import Image from 'next/image';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FiCheck, FiTarget, FiCompass } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { FiCompass, FiCpu, FiEdit3 } from 'react-icons/fi';
+import SpotlightCard from '@/components/ui/SpotlightCard';
+import AnimatedHeading from '@/components/ui/AnimatedHeading';
 
 export default function AboutSection({ about, purpose, vision }) {
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.about-reveal',
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          stagger: 0.12,
-          ease: 'power2.out',
-          clearProps: 'all',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 85%',
-            once: true,
-          },
-        }
-      );
-    }, sectionRef);
-
-    // Refresh trigger measurements
-    ScrollTrigger.refresh();
-
-    return () => ctx.revert();
-  }, []);
-
-  const goals = about?.goals || [
-    "Unite bright, dedicated, and growth-oriented students",
-    "Mentor aspiring researchers and develop academic leaders",
-    "Create a culture of innovation, collaboration, and excellence within the AIUB community",
-    "Publish high-quality journal and conference papers"
-  ];
-
-  const aims = purpose?.aims || [
-    "Build strong research teams",
-    "Mentor future researchers",
-    "Encourage interdisciplinary collaboration",
-    "Help students gain publication experience",
-    "Develop real-world research and communication skills",
-    "Create opportunities for academic and professional growth"
-  ];
-
   return (
-    <section
-      id="about"
-      ref={sectionRef}
-      className="scroll-mt-24 sm:scroll-mt-28 py-20 sm:py-28 relative bg-[#050B14] overflow-hidden"
-    >
-      {/* Background decoration */}
-      <div className="absolute top-1/2 left-0 w-80 h-80 bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-[160px] pointer-events-none" />
+    <section id="mission" className="bg-offwhite bg-grid-light text-obsidian py-24 sm:py-32 border-t border-zinc-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div className="container relative z-10">
-        {/* Editorial Eyebrow */}
-        <div className="about-reveal max-w-3xl mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono font-semibold tracking-wider uppercase mb-4">
-            <FiCompass />
-            <span>01 // Academic Identity</span>
-          </div>
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight leading-tight">
-            Bridging the Gap Between Student Potential and{' '}
-            <span className="text-gradient-cyan">Global Publication</span>
-          </h2>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-            {about?.summary ||
-              "InSiamtion Research Group (IRG) is a student-led research organization founded by students of American International University-Bangladesh that builds a collaborative ecosystem for passionate and capable researchers."}
-          </p>
+        {/* Top Asymmetric 2-Column Editorial Statement */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start pb-20 border-b border-zinc-200/90">
+
+          {/* Left Column: Eyebrow + Monumental Statement */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6"
+          >
+            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-cobalt font-semibold mb-4">
+              <span>[ 01 / THE IRG MISSION &amp; PURPOSE ]</span>
+            </div>
+            <AnimatedHeading
+              text="Turning curious undergraduates into published researchers."
+              as="h2"
+              className="font-display-tight font-bold text-4xl sm:text-5xl lg:text-[3.5rem] text-obsidian"
+              highlightWords={["published", "researchers."]}
+              highlightClass="text-cobalt"
+            />
+          </motion.div>
+
+          {/* Right Column: Narrative + Interactive Researcher Avatar Stack + Metrics */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 lg:pt-8 space-y-6"
+          >
+            <p className="text-zinc-600 text-base sm:text-lg leading-relaxed">
+              InSiamtion Research Group (IRG) was founded by motivated students of <strong className="text-obsidian font-semibold">American International University-Bangladesh (AIUB)</strong> with a clear conviction: capable students possess strong technical skills and innovative ideas, but frequently lack a reliable research team, hands-on mentorship, and publication guidance.
+            </p>
+            <p className="text-zinc-600 text-base leading-relaxed">
+              We bridge that gap by building structured, collaborative labs—guiding fellows through empirical inquiry, Python/PyTorch implementation, and LaTeX typesetting to publish in peer-reviewed venues while actively connecting students with prospective international professors for Master&apos;s and PhD placements.
+            </p>
+
+            {/* Interactive Researcher Avatar Stack with Spring Float */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <div className="flex -space-x-2.5">
+                {[
+                  { initials: 'JS', bg: 'bg-obsidian', text: 'text-white' },
+                  { initials: 'AR', bg: 'bg-cobalt', text: 'text-white' },
+                  { initials: 'TN', bg: 'bg-zinc-800', text: 'text-white' },
+                  { initials: 'MK', bg: 'bg-zinc-700', text: 'text-white' },
+                  { initials: '+8', bg: 'bg-zinc-200', text: 'text-obsidian' },
+                ].map((avatar, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ scale: 1.2, y: -3, zIndex: 20 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                    className={`w-10 h-10 rounded-full ${avatar.bg} ${avatar.text} font-display font-bold text-xs flex items-center justify-center ring-2 ring-offwhite shadow-sm cursor-pointer relative`}
+                  >
+                    {avatar.initials}
+                  </motion.div>
+                ))}
+              </div>
+              <div className="text-xs text-zinc-500">
+                <span className="font-semibold text-obsidian block">Selected AIUB Undergraduate Fellows</span>
+                10 active researchers working across Idea, Execution &amp; Writing Labs
+              </div>
+            </div>
+
+            {/* 3 Crisp Editorial Metrics with Interactive Hover Springs */}
+            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-zinc-200">
+              <motion.div
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                className="p-2 -m-2 rounded-xl transition-colors hover:bg-zinc-100/70"
+              >
+                <div className="font-display font-bold text-2xl sm:text-3xl text-obsidian">40+ → 10</div>
+                <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 mt-1">Selected Cohort</div>
+              </motion.div>
+              <motion.div
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                className="p-2 -m-2 rounded-xl transition-colors hover:bg-zinc-100/70"
+              >
+                <div className="font-display font-bold text-2xl sm:text-3xl text-cobalt">3 Labs</div>
+                <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 mt-1">Specialized Teams</div>
+              </motion.div>
+              <motion.div
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                className="p-2 -m-2 rounded-xl transition-colors hover:bg-zinc-100/70"
+              >
+                <div className="font-display font-bold text-2xl sm:text-3xl text-obsidian">8+ Venues</div>
+                <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 mt-1">IEEE &amp; Springer Targets</div>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Narrative & Image Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16">
-          {/* Left Column: Context & Vision */}
-          <div className="lg:col-span-6 space-y-6 about-reveal">
-            <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-white/10 relative overflow-hidden">
-              <div className="text-xs font-mono uppercase tracking-wider text-cyan-400 font-semibold mb-2">
-                The Context & Problem
+        {/* =========================================================
+             THE 3 SPECIALIZED RESEARCH TEAMS
+        ========================================================== */}
+        <div id="teams" className="pt-20">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12"
+          >
+            <div>
+              <div className="font-mono text-xs uppercase tracking-widest text-cobalt font-semibold mb-2">
+                [ 02 / CORE LAB ARCHITECTURE ]
               </div>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                {purpose?.context ||
-                  "Many students have strong technical skills, innovative ideas, research interest, and academic potential but often lack a reliable research team, proper mentorship, collaborative opportunities, research workflow experience, and guidance for publication."}
-              </p>
+              <AnimatedHeading
+                text="The 3 Specialized Research Teams"
+                as="h3"
+                className="font-display-tight font-bold text-3xl sm:text-4xl text-obsidian"
+                highlightWords={["3", "Specialized"]}
+                highlightClass="text-cobalt"
+              />
             </div>
+            <p className="font-mono text-xs text-zinc-500 max-w-xs">
+              STRUCTURED WEEKLY SPRINTS • CODE REPRODUCIBILITY • DIRECT SENIOR MENTORSHIP
+            </p>
+          </motion.div>
 
-            <div className="p-6 sm:p-8 rounded-2xl glass-panel border border-cyan-500/20 bg-gradient-to-br from-cyan-950/30 to-slate-900/60 relative overflow-hidden">
-              <div className="text-xs font-mono uppercase tracking-wider text-cyan-300 font-semibold mb-2 flex items-center gap-2">
-                <FiTarget className="text-cyan-400" />
-                <span>Our Vision</span>
-              </div>
-              <p className="text-white text-base sm:text-lg font-medium leading-relaxed">
-                &ldquo;{vision ||
-                  "To create one of the most impactful student-led research communities within AIUB that empowers talented students through mentorship, teamwork, and high-quality research contributions."}&rdquo;
-              </p>
-            </div>
-          </div>
+          {/* 3 Bento Cards with Hairline Borders, Dynamic Spotlight & Spring Hover */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
 
-          {/* Right Column: Lab Image and Visual Evidence */}
-          <div className="lg:col-span-6 about-reveal">
-            <div className="relative rounded-2xl p-1 bg-gradient-to-br from-white/15 via-cyan-500/20 to-indigo-500/20 shadow-2xl overflow-hidden group">
-              <div className="relative rounded-[14px] overflow-hidden aspect-[16/11] bg-slate-950">
-                <Image
-                  src="/images/experiment_lab.jpg"
-                  alt="Student researchers collaborating in computational laboratory"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050B14] via-transparent to-transparent opacity-80" />
-
-                <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-slate-950/85 backdrop-blur-md border border-white/10">
-                  <div className="text-xs font-mono text-cyan-400 mb-1">
-                    AIUB STUDENT RESEARCH PLATFORM
-                  </div>
-                  <div className="text-sm font-semibold text-white">
-                    Hands-on Experimentation & Algorithmic Discovery
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Structured workflows designed to turn student ideas into camera-ready conference papers.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 4 Core Goals Grid */}
-        <div className="about-reveal mt-8">
-          <div className="text-xs font-mono uppercase tracking-widest text-slate-400 font-semibold mb-6 flex items-center gap-2">
-            <span className="w-6 h-[1px] bg-cyan-400" />
-            <span>Core Pillars & Strategic Objectives</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {goals.map((goal, idx) => (
-              <div
-                key={idx}
-                className="p-6 rounded-xl glass-panel glass-panel-hover border border-white/5 flex flex-col justify-between group"
+            {/* Team 01: Idea Development and Proposal */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="h-full"
+            >
+              <SpotlightCard
+                spotlightColor="rgba(37, 99, 235, 0.08)"
+                spotlightSize={350}
+                className="group rounded-3xl bg-white p-8 border border-zinc-200/90 hover:border-cobalt/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-cobalt/5 flex flex-col justify-between h-full"
               >
                 <div>
-                  <div className="font-mono text-xs font-bold text-cyan-400 mb-3 flex items-center justify-between">
-                    <span>PILLAR 0{idx + 1}</span>
-                    <FiCheck className="text-emerald-400 text-sm" />
+                  <div className="flex items-center justify-between mb-8">
+                    <span className="font-mono text-xs font-semibold px-3 py-1 rounded-full bg-zinc-100 text-obsidian group-hover:bg-cobalt group-hover:text-white transition-colors duration-200">
+                      TEAM 01
+                    </span>
+                    <FiCompass className="w-5 h-5 text-zinc-400 group-hover:text-cobalt group-hover:rotate-45 transition-all duration-300" />
                   </div>
-                  <p className="text-slate-200 text-sm sm:text-base font-medium leading-snug group-hover:text-white transition-colors">
-                    {goal}
+                  <h4 className="font-display font-bold text-2xl text-obsidian mb-3 group-hover:text-cobalt transition-colors duration-200">
+                    Idea Development &amp; Proposal Lab
+                  </h4>
+                  <p className="text-sm text-zinc-600 leading-relaxed mb-6">
+                    The intellectual foundation of IRG. Responsible for brainstorming innovative concepts, systematic literature gap identification, formal research proposals, and study methodology design.
                   </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="text-xs font-mono px-3 py-1 rounded-md bg-zinc-100 text-zinc-700 group-hover:bg-cobalt/10 group-hover:text-cobalt transition-colors">
+                      Literature Gap Matrix
+                    </span>
+                    <span className="text-xs font-mono px-3 py-1 rounded-md bg-zinc-100 text-zinc-700 group-hover:bg-cobalt/10 group-hover:text-cobalt transition-colors">
+                      Study Blueprints
+                    </span>
+                  </div>
                 </div>
-                <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-[11px] text-slate-400">
-                  <span>Objective Validated</span>
-                  <span className="text-cyan-400 group-hover:translate-x-1 transition-transform">→</span>
+                <div className="pt-4 border-t border-zinc-100 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                  <span>1 LEADER • 4–5 MEMBERS</span>
+                  <span className="text-cobalt font-semibold group-hover:translate-x-2 transition-transform duration-200">
+                    &rarr;
+                  </span>
                 </div>
-              </div>
-            ))}
+              </SpotlightCard>
+            </motion.div>
+
+            {/* Team 02: Execution/Experimental (Inverted Obsidian Center Card with Breathing Atmospheric Glow) */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="h-full"
+            >
+              <SpotlightCard
+                spotlightColor="rgba(37, 99, 235, 0.22)"
+                spotlightSize={400}
+                className="group rounded-3xl bg-obsidian text-white p-8 border border-obsidian transition-all duration-300 shadow-2xl flex flex-col justify-between h-full relative"
+              >
+                {/* Breathing Ambient Glow */}
+                <motion.div
+                  animate={{
+                    scale: [1, 1.15, 1],
+                    opacity: [0.25, 0.45, 0.25],
+                  }}
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute -right-12 -top-12 w-44 h-44 rounded-full bg-cobalt/30 blur-2xl pointer-events-none"
+                />
+
+                <div>
+                  <div className="flex items-center justify-between mb-8">
+                    <span className="font-mono text-xs font-semibold px-3 py-1 rounded-full bg-cobalt text-white shadow-md shadow-cobalt/30">
+                      TEAM 02
+                    </span>
+                    <FiCpu className="w-5 h-5 text-cobalt group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <h4 className="font-display font-bold text-2xl text-white mb-3 group-hover:text-cobaltGlow transition-colors duration-200">
+                    Execution &amp; Experimental Lab
+                  </h4>
+                  <p className="text-sm text-zinc-300 leading-relaxed mb-6">
+                    The computational powerhouse of IRG. Implements state-of-the-art models, designs validation benchmarks, and executes empirical data analysis with clean, reproducible PyTorch codebases.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="text-xs font-mono px-3 py-1 rounded-md bg-white/10 text-zinc-200 group-hover:bg-cobalt/25 group-hover:text-white transition-colors">
+                      PyTorch Pipelines
+                    </span>
+                    <span className="text-xs font-mono px-3 py-1 rounded-md bg-white/10 text-zinc-200 group-hover:bg-cobalt/25 group-hover:text-white transition-colors">
+                      Empirical Benchmarks
+                    </span>
+                  </div>
+                </div>
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between font-mono text-[11px] text-zinc-400">
+                  <span>1 LEADER • 4–5 MEMBERS</span>
+                  <span className="text-cobalt font-semibold text-sm group-hover:translate-x-2 transition-transform duration-200">
+                    &rarr;
+                  </span>
+                </div>
+              </SpotlightCard>
+            </motion.div>
+
+            {/* Team 03: Writing and Formatting */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="h-full"
+            >
+              <SpotlightCard
+                spotlightColor="rgba(37, 99, 235, 0.08)"
+                spotlightSize={350}
+                className="group rounded-3xl bg-white p-8 border border-zinc-200/90 hover:border-cobalt/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-cobalt/5 flex flex-col justify-between h-full"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-8">
+                    <span className="font-mono text-xs font-semibold px-3 py-1 rounded-full bg-zinc-100 text-obsidian group-hover:bg-cobalt group-hover:text-white transition-colors duration-200">
+                      TEAM 03
+                    </span>
+                    <FiEdit3 className="w-5 h-5 text-zinc-400 group-hover:text-cobalt group-hover:-rotate-12 transition-all duration-300" />
+                  </div>
+                  <h4 className="font-display font-bold text-2xl text-obsidian mb-3 group-hover:text-cobalt transition-colors duration-200">
+                    Writing &amp; Formatting Lab
+                  </h4>
+                  <p className="text-sm text-zinc-600 leading-relaxed mb-6">
+                    Translating experimental breakthroughs into camera-ready manuscripts formatted strictly to IEEE, Springer Nature, and ACM standards with rigorous citation integrity.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    <span className="text-xs font-mono px-3 py-1 rounded-md bg-zinc-100 text-zinc-700 group-hover:bg-cobalt/10 group-hover:text-cobalt transition-colors">
+                      LaTeX Formatting
+                    </span>
+                    <span className="text-xs font-mono px-3 py-1 rounded-md bg-zinc-100 text-zinc-700 group-hover:bg-cobalt/10 group-hover:text-cobalt transition-colors">
+                      Citation Integrity
+                    </span>
+                  </div>
+                </div>
+                <div className="pt-4 border-t border-zinc-100 flex items-center justify-between font-mono text-[11px] text-zinc-500">
+                  <span>1 LEADER • 4–5 MEMBERS</span>
+                  <span className="text-cobalt font-semibold group-hover:translate-x-2 transition-transform duration-200">
+                    &rarr;
+                  </span>
+                </div>
+              </SpotlightCard>
+            </motion.div>
+
           </div>
         </div>
 
-        {/* 6 Key Aims Strip */}
-        <div className="about-reveal mt-10 p-6 sm:p-8 rounded-2xl glass-panel border border-white/5 bg-slate-900/40">
-          <div className="text-xs font-mono uppercase tracking-widest text-cyan-400 font-semibold mb-4">
-            Operational Aims
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {aims.map((aim, i) => (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-white/[0.03] border border-white/5">
-                <span className="w-6 h-6 rounded-md bg-cyan-500/10 text-cyan-300 flex items-center justify-center text-xs font-mono shrink-0">
-                  {i + 1}
-                </span>
-                <span className="text-xs sm:text-sm text-slate-200 font-medium">{aim}</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

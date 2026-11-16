@@ -3,13 +3,11 @@
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import Hero from '@/components/home/Hero';
-import AnnouncementBanner from '@/components/home/AnnouncementBanner';
 import AboutSection from '@/components/home/AboutSection';
-import ResearchTeamsPipeline from '@/components/home/ResearchTeamsPipeline';
-import PublicationsShowcase from '@/components/home/PublicationsShowcase';
-import MentorshipCulture from '@/components/home/MentorshipCulture';
 import WhyJoinUsComparison from '@/components/home/WhyJoinUsComparison';
+import ResearchTeamsPipeline from '@/components/home/ResearchTeamsPipeline';
 import ValuesAndPhilosophy from '@/components/home/ValuesAndPhilosophy';
+import Modals from '@/components/home/Modals';
 
 export default function HomeMain({ data }) {
   const org = data?.organization || {};
@@ -17,47 +15,28 @@ export default function HomeMain({ data }) {
   const purpose = data?.purpose || {};
   const vision = data?.vision || '';
   const announcement = data?.announcement || null;
-  const featuredResearch = data?.featuredResearch || {};
-  const authorshipPolicy = data?.authorshipPolicy || {};
-  const whyJoinUs = data?.whyJoinUs || {};
   const teams = data?.teamStructure?.teams || [];
+  const whyJoinUs = data?.whyJoinUs || {};
   const philosophy = data?.organizationalPhilosophy || [];
   const values = data?.coreValues || [];
   const membership = data?.membershipExpectations || [];
-  const mentorship = data?.mentorshipCulture || {};
   const confidentiality = data?.confidentialityPolicy || [];
   const longTermGoals = data?.longTermGoals || [];
 
   return (
-    <div className="min-h-screen bg-[#050B14] text-slate-100 flex flex-col selection:bg-cyan-500/20 selection:text-cyan-300">
+    <div className="min-h-screen bg-obsidian text-offwhite flex flex-col selection:bg-cobalt selection:text-white font-sans">
+      {/* 1. Minimal Editorial Floating Pill Navbar */}
       <Navbar />
 
       <main className="flex-1">
-        {/* Cinematic Hero with 3D Constellation & Metrics */}
+        {/* 2. Monumental Dark-Mode Hero Section with Interactive 3-Team Lifecycle Bento */}
         <Hero org={org} about={about} announcement={announcement} />
 
-        {/* Live Cohort Status / Mission Control Announcement */}
-        <AnnouncementBanner announcement={announcement} />
-
-        {/* Academic Identity & Mission */}
+        {/* 3. High-Contrast Light-Mode Editorial Section (#mission & #teams: 3 Specialized Labs) */}
         <AboutSection about={about} purpose={purpose} vision={vision} />
 
-        {/* 3 Specialized Labs & Scientific Pipeline */}
-        <ResearchTeamsPipeline teams={teams} />
 
-        {/* Publications, Conference Venues & Authorship Ethics */}
-        <PublicationsShowcase
-          featuredResearch={featuredResearch}
-          authorshipPolicy={authorshipPolicy}
-        />
-
-        {/* Senior-to-Junior Mentorship Framework */}
-        <MentorshipCulture mentorship={mentorship} />
-
-        {/* Value Proposition: Solo Student Dilemma vs IRG Ecosystem */}
-        <WhyJoinUsComparison whyJoinUs={whyJoinUs} />
-
-        {/* Core Values, Organizational Philosophy & Confidentiality Protocol */}
+        {/* 6. Research Ethics & Discipline (#values: 8 Core Values, 6-10h Commitment & Confidentiality) */}
         <ValuesAndPhilosophy
           philosophy={philosophy}
           values={values}
@@ -66,7 +45,11 @@ export default function HomeMain({ data }) {
         />
       </main>
 
+      {/* 7. Minimal Editorial Footer */}
       <Footer org={org} longTermGoals={longTermGoals} />
+
+      {/* Interactive Fellowship Application & Venue Inspector Modals */}
+      <Modals />
     </div>
   );
 }
